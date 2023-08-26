@@ -1,11 +1,16 @@
-
+<title>Tag Nr {{entry.id}}</title>
 
 <body>
+
+	{% if entry.title %}
+		<h1>{{entry.title}}</h1>
+	{% endif %}
+	<h1><h1>
 	<iframe width="944" 
 	height="531"
 	src={{entry.videoLink}}
-	title="We are going to piss on the moon" 
 	frameborder="0" 
-	allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+	allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+	allowfullscreen>
 	</iframe>
 </body>

@@ -2,11 +2,12 @@ from django.shortcuts import render, get_object_or_404
 from .models import DateEntry
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import loader
+import datetime
 
 # Create your views here.
 
 def index(request):
-    latest_list = DateEntry.objects.order_by("-date")[:24]
+    latest_list = DateEntry.objects.order_by("-start_date")[:24]
     template = loader.get_template("vidPlatform/index.html")
     context = {
         "latest_list": latest_list,
@@ -21,4 +22,7 @@ def detail(request, dateentry_id):
         dateEntry = get_object_or_404(DateEntry, pk=dateentry_id)
     except DateEntry.DoesNotExist:
         raise Http404("date entry doesnt exist")
-    return render(request,"vidPlatform/detail.html", {"entry":dateEntry} )
+    if (dateEntry.start_date == datetime.date.today()):
+        return render(request,"vidPlatform/detail.html", {"entry":dateEntry} )
+    else:
+        return HttpResponse("nice try nerd")
