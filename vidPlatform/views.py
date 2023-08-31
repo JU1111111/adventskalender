@@ -22,11 +22,9 @@ def detail(request, dateentry_id):
         dateEntry = get_object_or_404(DateEntry, pk=dateentry_id)
     except DateEntry.DoesNotExist:
         raise Http404("date entry doesnt exist")
-    print(datetime.date.today())
-    print(dateEntry.start_date )
-    print(datetime.timedelta(dateEntry.start_date, datetime.date.today()))
     
-    if (datetime.timedelta(dateEntry.start_date, datetime.date.today())):
+    
+    if (dateEntry.start_date < datetime.date.today() < dateEntry.end_date):
         
         return render(request,"vidPlatform/detail.html", {"entry":dateEntry} )
     else:
