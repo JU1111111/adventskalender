@@ -11,6 +11,7 @@ class DateEntryAdmin(admin.ModelAdmin):
         (None, {"fields": ["title"]}),
         ("Valid on", {"fields": ["start_date", "end_date"]}),
         ("Video",{"fields": ["videoLink"]}),
+        ("Question",{"fields": ["question"]}),
     ]
     inlines = [choiceInline]
 
