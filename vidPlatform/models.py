@@ -11,6 +11,12 @@ class DateEntry(models.Model):
     videoLink = models.CharField(max_length=340)
     question = models.CharField(max_length=520)
 
+    def isInTheFuture(self):
+        if (datetime.now < self.start_date):
+            return True
+        else:
+            return False
+
 
 
 class choice(models.Model):

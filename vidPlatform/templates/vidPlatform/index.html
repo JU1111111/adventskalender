@@ -1,9 +1,21 @@
-{% if latest_list %}
-    <ul>
-    {% for dateentry in latest_list %}
-        <li><a href="{% url 'detail' dateentry.id%}">{{dateentry.title}}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No questions are available.</p>
-{% endif %}
+{% extends 'vidPlatform/header.html' %} 
+
+{% block content %}
+
+
+    {% if latest_list %}
+        <div class="card-group">
+        {% for dateentry in latest_list %}
+            <div class="card">
+                <div class="card-header"><h1 class="display-4">Tag {{forloop.counter}}</h1></div>
+                <div class="card-body">
+                    <h1 class="display-5"> {{dateentry.title}}</h1>
+                    <a href="{% url 'detail' dateentry.id%}" class="btn btn-primary" > GO</a>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <p>No questions are available.</p>
+    {% endif %}
+{% endblock %} 

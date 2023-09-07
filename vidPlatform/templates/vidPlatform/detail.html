@@ -1,16 +1,48 @@
+{% extends 'vidPlatform/header.html' %} 
+
+
+{% block content %}
 <title>Tag Nr {{entry.id}}</title>
 
 <body>
 
 	{% if entry.title %}
-		<h1>{{entry.title}}</h1>
+		<h1 class="display-2 px-3">{{entry.title}}</h1>
 	{% endif %}
-	<h1><h1>
-	<iframe width="944" 
-	height="531"
-	src={{entry.videoLink}}
-	frameborder="0" 
-	allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-	allowfullscreen>
-	</iframe>
+
+	<div class="row">
+		<div class="col-sm-8">
+			<div class="bs-example" data-example-id="responsive-embed-16by9-iframe-youtube">
+				<div class="embed-responsive embed-responsive-16by9">
+					<iframe class="embed-responsive-item" 
+					src="https://www.youtube.com/embed/{{entry.videoLink}}"
+					allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+					allowfullscreen>
+					</iframe>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<h1 class="display-2 px-3">Deine Wahl</h1>
+	<h1 class="display-5 px-3">{{entry.question}}</h1>
+
+	<div class="form-check m-3">
+		<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+		<label class="form-check-label" for="flexRadioDefault1">
+		  Default radio
+		</label>
+	</div>
+
+	<div class="form-check m-3">
+	<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+	<label class="form-check-label" for="flexRadioDefault2">
+		Default checked radio
+	</label>
+	</div>
+
+	<button class="btn btn-primary m-3" type="submit">Save</button>
+
+	</div>
 </body>
+{% endblock %} 

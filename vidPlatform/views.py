@@ -24,7 +24,7 @@ def detail(request, dateentry_id):
         raise Http404("date entry doesnt exist")
     
     
-    if (dateEntry.start_date < datetime.date.today() < dateEntry.end_date):
+    if (dateEntry.start_date <= datetime.date.today() < dateEntry.end_date):
         
         return render(request,"vidPlatform/detail.html", {"entry":dateEntry} )
     else:
