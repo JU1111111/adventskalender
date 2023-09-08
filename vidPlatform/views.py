@@ -23,9 +23,17 @@ def detail(request, dateentry_id):
     except DateEntry.DoesNotExist:
         raise Http404("date entry doesnt exist")
     
-    
-    if (dateEntry.start_date <= datetime.date.today() < dateEntry.end_date):
-        
-        return render(request,"vidPlatform/detail.html", {"entry":dateEntry} )
+    today = datetime.date.today()
+
+    if (dateEntry.isActive(today)):
+        print("is active")
+        return render(request,"vidPlatform/detailActive.html", {"entry":dateEntry} )
+    elif(dateEntry.isInTheFuture(today)):
+        print("is in future")
+        return HttpResponse("not yet available")
+    elif (dateEntry.isOver(today)):
+        print("is over")
+        return HttpResponse("Vote is over. Video and its Resulution here")
     else:
-        return HttpResponse("nice try nerd")
+        print("is fucked")
+        return Http404("Entry does not exist ")
