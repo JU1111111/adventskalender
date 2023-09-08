@@ -1,16 +1,16 @@
 from django.contrib import admin
-from .models import DateEntry, choice
+from .models import DateEntry, Choice
 
 
 class choiceInline(admin.StackedInline):
-    model = choice
+    model = Choice
     extra = 3
 
 class DateEntryAdmin(admin.ModelAdmin):
     fieldsets = [
         (None, {"fields": ["title"]}),
         ("Valid on", {"fields": ["start_date", "end_date"]}),
-        ("Video",{"fields": ["videoLink"]}),
+        ("Video",{"fields": ["videoLink", "resolutionVidLink"]}),
         ("Question",{"fields": ["question"]}),
     ]
     inlines = [choiceInline]
@@ -20,4 +20,4 @@ class DateEntryAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(DateEntry, DateEntryAdmin)
-admin.site.register(choice)
+admin.site.register(Choice)
