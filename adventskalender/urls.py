@@ -20,5 +20,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('advent/', include("vidPlatform.urls")),
-	path('userReg/',include("userReg.urls"))
+	path('register/',include("userReg.urls"))
 ]
