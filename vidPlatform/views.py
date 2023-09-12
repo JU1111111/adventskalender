@@ -27,7 +27,7 @@ def detail(request, dateentry_id):
 
     if (dateEntry.isActive(today)):
         print("is active")
-        return render(request,"vidPlatform/detailActive.html", {"entry":dateEntry} )
+        return render(request,"vidPlatform/detailPages/detailActive.html", {"entry":dateEntry} )
     elif(dateEntry.isInTheFuture(today)):
         print("is in future")
         return HttpResponse("not yet available")
