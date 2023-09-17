@@ -3,17 +3,62 @@
 {% block content %}
     {% include 'vidPlatform/includes/navbar.html' %}
 
-    {% if latest_list %}
-        <div class="card-group">
-        {% for dateentry in latest_list %}
-            <div class="card">
-                <div class="card-header"><h1 class="display-4">Tag {{forloop.counter}}</h1></div>
-                <div class="card-body">
-                    <h1 class="display-5"> {{dateentry.title}}</h1>
-                    <a href="{% url 'detail' dateentry.id%}" class="btn btn-primary" > GO</a>
+    <div class="container text-center">
+        <div class="row">
+            {%if todays_Entry%}
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                    Heutiges Rätsel
+                    </div>
+                    <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="{% url 'detail' todays_Entry.0.id%}" class="btn btn-primary">Go somewhere</a>
+                    </div>
                 </div>
             </div>
-        {% endfor %}
+            {% endif %}
+            {%if yesterdays_Entry%}
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                    Auflösung von Gestern
+                    </div>
+                    <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="{% url 'detail' yesterdays_Entry.0.id%}" class="btn btn-primary">Go some</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+      </div>
+
+    {% load entryValidator %}
+    {% if latest_list %}
+        <div class="container text-center">
+        <div class="row row-cols-auto">
+            {% for dateentry in latest_list %}
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            {%validateIfActive dateentry as IsValid%}
+                            {%validateIfOver dateentry as IsOver%}
+                            {%validateIfInTheFuture dateentry as IsFuture%}
+                            Tag Nr. {{ forloop.counter }}
+                            {%if IsValid%}
+                                <a type="button" class="btn btn-primary" href="{% url 'detail' dateentry.id%}">GO</a>
+                            {%elif IsOver%}
+                                <a type="button" class="btn btn-success" href="{% url 'detail' dateentry.id%}">GO</a>
+                            {%elif IsFuture%}
+                                <a type="button" class="btn btn-secondary" href="{% url 'detail' dateentry.id%}">GO</a>
+                            {%endif%}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     {% else %}
         <p>No questions are available.</p>

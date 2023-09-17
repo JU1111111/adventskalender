@@ -20,7 +20,7 @@ def register_request(request):
 		print(form.errors)
 		messages.error(request, "Unsuccessful registration. Invalid information.")
 	form = NewUserForm()
-	return render(request, "userReg/regPage.html", {"register_form":form})
+	return render(request, "adventskalender/regPage.html", {"register_form":form})
 
 
 def login_request(request):
@@ -39,4 +39,4 @@ def login_request(request):
 		else:
 			messages.error(request,"Invalid username or password.")
 	form = AuthenticationForm()
-	return render(request=request, template_name="userReg/loginPage.html", context={"login_form":form})
+	return render(request=request, template_name="adventskalender/loginPage.html", context={"login_form":form})

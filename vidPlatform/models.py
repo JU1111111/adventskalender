@@ -20,7 +20,7 @@ class DateEntry(models.Model):
             return False
         
     def isOver(self, currentDateTime):
-        if (currentDateTime > self.end_date):
+        if (currentDateTime >= self.end_date):
             return True
         else:
             return False

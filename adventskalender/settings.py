@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'vidPlatform.apps.VidplatformConfig',
-	'userReg.apps.UserregConfig',
+	'adventskalender.apps.AdventskalenderConfig',
 	"crispy_forms",
     "crispy_bootstrap5",
 ]
@@ -124,6 +124,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+LOGIN_URL = '/login'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

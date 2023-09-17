@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class UserregConfig(AppConfig):
+class AdventskalenderConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'userReg'
+    name = 'adventskalender'

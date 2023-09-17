@@ -16,9 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from adventskalender import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('advent/', include("vidPlatform.urls")),
-	path('register/',include("userReg.urls"))
+	path('register/', views.register_request, name="register_request"),
+	path('login/', views.login_request, name="login"),
 ]
