@@ -49,9 +49,9 @@
                             {%validateIfInTheFuture dateentry as IsFuture%}
                             Tag Nr. {{ forloop.counter }}
                             {%if IsValid%}
-                                <a type="button" class="btn btn-primary" href="{% url 'detail' dateentry.id%}">GO</a>
-                            {%elif IsOver%}
                                 <a type="button" class="btn btn-success" href="{% url 'detail' dateentry.id%}">GO</a>
+                            {%elif IsOver%}
+                                <a type="button" class="btn btn-primary" href="{% url 'detail' dateentry.id%}">GO</a>
                             {%elif IsFuture%}
                                 <a type="button" class="btn btn-secondary" href="{% url 'detail' dateentry.id%}">GO</a>
                             {%endif%}
@@ -63,4 +63,5 @@
     {% else %}
         <p>No questions are available.</p>
     {% endif %}
+   
 {% endblock %} 

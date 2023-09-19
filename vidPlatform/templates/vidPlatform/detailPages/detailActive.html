@@ -28,22 +28,22 @@
 	<h1 class="display-2 px-3">Deine Wahl</h1>
 	<h1 class="display-5 px-3">{{entry.question}}</h1>
 
-	<div class="form-check m-3">
-		<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-		<label class="form-check-label" for="flexRadioDefault1">
-		  Default radio
-		</label>
-	</div>
+	<div>
+		<form action="/advent/{{entry.id}}/" method="post">
+		{% csrf_token %}
 
-	<div class="form-check m-3">
-	<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-	<label class="form-check-label" for="flexRadioDefault2">
-		Default checked radio
-	</label>
-	</div>
 
-	<button class="btn btn-primary m-3" type="submit">Save</button>
+		{%for choice in choices%}
+			<div class="form-check m-3">
+				<input class="form-check-input" type="radio" name="choiceRadio" id="flexRadioDefault1" value="{{choice.id}}">
+				<label class="form-check-label" for="choiceRadio">
+				{{choice.choice_text}}
+				</label>
+			</div>
+		{%endfor%}
 
+		<button class="btn btn-primary m-3" type="submit">Save</button>
+		</form>
 	</div>
 </body>
 {% endblock %} 

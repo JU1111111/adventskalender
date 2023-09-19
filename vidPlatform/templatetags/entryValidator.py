@@ -9,7 +9,7 @@ register = template.Library()
 @register.simple_tag
 def validateIfActive(dateEntry: DateEntry):
 	currentDateTime = datetime.date.today()
-
+	
 	if (dateEntry.start_date <= currentDateTime < dateEntry.end_date):
 		return True
 	else:

@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from .models import DateEntry
+from .models import DateEntry, Choice, Vote
+from .forms import VoteForm
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import loader
 import datetime
@@ -23,9 +24,17 @@ def index(request):
 
 @login_required
 def detail(request, dateentry_id):
-    print(request.user)
+    if request.method == "POST":
+        user = request.user
+        selectedChoiceID = request.POST.__getitem__("choiceRadio")
+        choice = Choice.objects.get(pk=selectedChoiceID)
+        theVote = Vote(author=user, choice=choice)
+        theVote.save()
+
     try:
         dateEntry = get_object_or_404(DateEntry, pk=dateentry_id)
+        choices = Choice.objects.filter(question=dateEntry)
+
     except DateEntry.DoesNotExist:
         raise Http404("date entry doesnt exist")
     
@@ -33,7 +42,7 @@ def detail(request, dateentry_id):
 
     if (dateEntry.isActive(today)):
         print("is active")
-        return render(request,"vidPlatform/detailPages/detailActive.html", {"entry":dateEntry} )
+        return render(request,"vidPlatform/detailPages/detailActive.html", {"entry":dateEntry, "choices":choices} )
     elif(dateEntry.isInTheFuture(today)):
         print("is in future")
         return render(request,"vidPlatform/detailPages/detailFuture.html", {"entry":dateEntry} )
