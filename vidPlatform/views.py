@@ -11,7 +11,8 @@ def index(request):
     todaysEntry = DateEntry.objects.filter(start_date__exact=datetime.date.today())
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
     yesterdaysEntry = DateEntry.objects.filter(start_date__exact=yesterday)
-    latest_list = DateEntry.objects.order_by("-start_date")[:24]
+    latest_list = DateEntry.objects.order_by("start_date")[:24]
+    #print(latest_list)
     template = loader.get_template("vidPlatform/index.html")
     context = {
         "latest_list": latest_list,
