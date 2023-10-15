@@ -18,6 +18,8 @@ class DateEntryAdmin(admin.ModelAdmin):
 
 
 
+
+
 # Register your models here.
 admin.site.register(DateEntry, DateEntryAdmin)
 admin.site.register(Choice)

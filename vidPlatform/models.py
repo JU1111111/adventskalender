@@ -30,6 +30,11 @@ class DateEntry(models.Model):
             return True
         else:
             return False
+        
+
+    def __str__(self):
+        name = f"{self.start_date}_{self.title}"
+        return name
 
 
 
