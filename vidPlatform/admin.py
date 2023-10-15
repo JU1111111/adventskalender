@@ -14,6 +14,9 @@ class DateEntryAdmin(admin.ModelAdmin):
         ("Question",{"fields": ["question"]}),
     ]
     inlines = [choiceInline]
+    ordering = ('start_date',)
+    list_filter = ["start_date", ]
+    list_display = ["__str__", "start_date"]
 
 
 
