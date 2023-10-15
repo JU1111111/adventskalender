@@ -25,31 +25,59 @@ def index(request):
 
 @login_required
 def detail(request, dateentry_id):
-    if request.method == "POST":
-        user = request.user
-        selectedChoiceID = request.POST.__getitem__("choiceRadio")
-        choice = Choice.objects.get(pk=selectedChoiceID)
-        theVote = Vote(author=user, choice=choice)
-        theVote.save()
+    user = request.user
+    today = datetime.date.today()
+    alreadyVotedChoice = None
 
     try:
         dateEntry = get_object_or_404(DateEntry, pk=dateentry_id)
         choices = Choice.objects.filter(question=dateEntry)
+        userVoteToday = Vote.objects.filter(author = user.id).filter(choice__question__start_date=today)
+        if userVoteToday:
+            alreadyVotedChoice = userVoteToday[0].choice
 
     except DateEntry.DoesNotExist:
         raise Http404("date entry doesnt exist")
+
     
-    today = datetime.date.today()
+
 
     if (dateEntry.isActive(today)):
-        print("is active")
-        return render(request,"vidPlatform/detailPages/detailActive.html", {"entry":dateEntry, "choices":choices} )
+        justVoted = False
+        if request.method == "POST":
+            selectedChoiceID = request.POST.__getitem__("choiceRadio")
+            choice = Choice.objects.get(pk=selectedChoiceID)
+            theVote = Vote(author=user, choice=choice)
+            if userVoteToday:
+                userVoteToday.delete()
+            alreadyVotedChoice = theVote.choice
+            theVote.save()
+            justVoted = True
+
+        context = {"entry": dateEntry,
+                    "choices": choices,
+                    "justVoted": justVoted,
+                    }
+        if alreadyVotedChoice:
+            context["choosen"] = alreadyVotedChoice.id
+
+
+        return render(request,"vidPlatform/detailPages/detailActive.html", context )
+    
     elif(dateEntry.isInTheFuture(today)):
         print("is in future")
         return render(request,"vidPlatform/detailPages/detailFuture.html", {"entry":dateEntry} )
+    
     elif (dateEntry.isOver(today)):
         print("is over")
-        return render(request,"vidPlatform/detailPages/detailOver.html", {"entry":dateEntry} )
+        context = {"entry":dateEntry,
+                    "choices":choices, 
+                    }
+        if usertoday[0]:
+            context["choosen"] = usertoday[0]
+
+        return render(request,"vidPlatform/detailPages/detailOver.html", context=context)
+    
     else:
         print("is fucked")
         return Http404("Entry does not exist ")

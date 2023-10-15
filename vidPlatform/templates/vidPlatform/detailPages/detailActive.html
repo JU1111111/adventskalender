@@ -35,15 +35,27 @@
 
 		{%for choice in choices%}
 			<div class="form-check m-3">
-				<input class="form-check-input" type="radio" name="choiceRadio" id="flexRadioDefault1" value="{{choice.id}}">
+				{%if choice.id == choosen%}
+					<input class="form-check-input" type="radio" name="choiceRadio" id="flexRadioDefault1" value="{{choice.id}}" checked>
+				{% else %}
+					<input class="form-check-input" type="radio" name="choiceRadio" id="flexRadioDefault1" value="{{choice.id}}">
+				{%endif%}
 				<label class="form-check-label" for="choiceRadio">
 				{{choice.choice_text}}
 				</label>
 			</div>
 		{%endfor%}
 
+		{%if justVoted%}
+		<div class="alert alert-success" role="alert">
+			Erfolgreich gewählt
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		  </div>
+		{%endif%}
+
 		<button class="btn btn-primary m-3" type="submit">Save</button>
 		</form>
+
 	</div>
 </body>
 {% endblock %} 
