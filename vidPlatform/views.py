@@ -28,6 +28,7 @@ def detail(request, dateentry_id):
     user = request.user
     today = datetime.date.today()
     alreadyVotedChoice = None
+    userVotetoday = []
 
     try:
         dateEntry = get_object_or_404(DateEntry, pk=dateentry_id)
@@ -73,8 +74,8 @@ def detail(request, dateentry_id):
         context = {"entry":dateEntry,
                     "choices":choices, 
                     }
-        if usertoday[0]:
-            context["choosen"] = usertoday[0]
+        if userVotetoday:
+            context["choosen"] = userVotetoday[0]
 
         return render(request,"vidPlatform/detailPages/detailOver.html", context=context)
     

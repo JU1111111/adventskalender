@@ -20,6 +20,7 @@ from adventskalender import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+	path('dashboard/', include("adminDash.urls")),
     path('advent/', include("vidPlatform.urls")),
 	path('register/', views.register_request, name="register_request"),
 	path('login/', views.login_request, name="login"),

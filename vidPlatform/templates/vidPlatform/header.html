@@ -1,41 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html  data-bs-theme="dark">
   <head>
-	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-	
+    
 
-	<style>
-		.embed-responsive {
-			max-height:1080px;
-		 }
-		 
-	</style>
+    <style>
+      .embed-responsive {
+        max-height:1080px;
+      }
+
+      html, body, main{
+        
+        margin: 0;
+        height: 100vh;
+
+    }
+      
+    </style>
   </head>
   
  <body>
-	
-    {% block content %}
 
-    {% endblock %}
-	
-	<script async src="https://cdn.jsdelivr.net/npm/es-module-shims@1/dist/es-module-shims.min.js" crossorigin="anonymous"></script>
-    <script type="importmap">
-    {
-      "imports": {
-        "@popperjs/core": "https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js",
-        "bootstrap": "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.esm.min.js"
+   {% block content %}
+   
+   {% endblock %}
+
+
+
+   
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+   <script async src="https://cdn.jsdelivr.net/npm/es-module-shims@1/dist/es-module-shims.min.js" crossorigin="anonymous"></script>
+   <script type="importmap">
+     {
+       "imports": {
+         "@popperjs/core": "https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js",
+         "bootstrap": "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.esm.min.js"
+        }
       }
-    }
     </script>
-    <script type="module">
-      import * as bootstrap from 'bootstrap'
 
-      new bootstrap.Popover(document.getElementById('popoverButton'))
-    </script>
+    
+   {% load static %}
+      <script src="{% static 'darkmodeupdater.js' %}"></script>
 
   </body>
 </html>

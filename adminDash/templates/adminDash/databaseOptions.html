@@ -1,0 +1,53 @@
+{% extends 'vidPlatform/header.html' %} 
+
+
+{% block content %}
+{% include 'adminDash/includes/dashNavbar.html' %}
+
+<div class="container" >
+	<div class="col">
+		<div class="row p-3">
+			<div class="col">
+				Number of date entries: 
+			</div>
+			<div class="col">
+				{{numEntries}}
+			</div>
+		</div>
+
+		<div class="row p-3">
+			<div class="col">
+			Number of users: 
+			</div>
+			<div class="col">
+			{{numUsers}}
+			</div>
+		</div>
+
+		<div class="row p-3">
+			<div class="col">
+			Number of votes casted: 
+			</div>
+			<div class="col">
+			{{numVotes}}
+			</div>
+		</div>
+	</div>
+	
+	<form  action="/dashboard/database/addDaysToDB" class="p-4" method="post">
+		{% csrf_token %}
+		<div class="mb-3">
+			<label for="dayToAddInput" class="form-label">Add days to all Entries</label>
+			<input type="number" class="form-control" id="dayAddInput" aria-describedby="dayAddHelp" name="dayAddInput">
+			<div id="dayAddHelp" class="form-text">number of days to add</div>
+		</div>
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+	
+	<form  action="/dashboard/database/importDB" class="p-4" method="post">
+		{% csrf_token %}
+		<button class="btn btn-primary" name="importButton" value="Import">Import data from spreadcheat</button>
+	</form>
+</div>
+
+{% endblock %} 

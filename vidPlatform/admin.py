@@ -16,7 +16,7 @@ class DateEntryAdmin(admin.ModelAdmin):
     inlines = [choiceInline]
     ordering = ('start_date',)
     list_filter = ["start_date", ]
-    list_display = ["__str__", "start_date"]
+    list_display = ["__str__", "start_date","pub_date"]
 
 
 

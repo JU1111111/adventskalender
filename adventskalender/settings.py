@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'vidPlatform.apps.VidplatformConfig',
 	'adventskalender.apps.AdventskalenderConfig',
+	'adminDash.apps.AdmindashConfig',
 	"crispy_forms",
     "crispy_bootstrap5",
 ]
