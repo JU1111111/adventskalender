@@ -8,4 +8,4 @@ def changeDateOfAllEntries(DaysToAdd):
 	for entry in entries:
 		entry.start_date += timeDelt
 		entry.end_date += timeDelt
-		print(f'changed entry date from {entry.start_date - timeDelt} to {entry.start_date}')
+		entry.save()

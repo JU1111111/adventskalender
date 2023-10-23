@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from vidPlatform.models import DateEntry, Choice, Vote
 from django.contrib.auth import get_user_model
-
+from . import dbMod
 
 
 def admin_check(user):
@@ -33,10 +33,19 @@ def database(request):
 				}
 	return render(request, "adminDash/databaseOptions.html", context)
 
-
+@login_required
+@user_passes_test(admin_check)
 def addDaysToDB(request):
 	if request.method == "POST":
 		numberOfDaysToAdd = request.POST.get("dayAddInput")
-		print(numberOfDaysToAdd)
+		print(type(numberOfDaysToAdd))
+		numOfDaysInt = int(numberOfDaysToAdd)
+		dbMod.changeDateOfAllEntries(numOfDaysInt)
+
+	return redirect("database")
+
+
+def importFromDoc():
+	print('WHEEEEEEE')
 
 	return redirect("database")

@@ -7,5 +7,6 @@ urlpatterns = [
     path("", views.index, name="index"),
 	path("database", views.database, name="database"),
 	path("database/addDaysToDB", views.addDaysToDB, name="addDaysToDB")
+	path("database/importDB", views.importFromDoc, name="importFromDoc")
 
 ]
