@@ -21,6 +21,8 @@ def changeDateOfAllEntries(DaysToAdd):
 		entry.save()
 
 def getDateEntries():
+    alllentries = DateEntry.objects.all()
+    alllentries.delete()
     # Authentication
     creds = None
     if os.path.exists('token.json'):
@@ -30,7 +32,7 @@ def getDateEntries():
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
+                'C:\\Users\\Julian\\Desktop\\advendskalenderDjango\\adventskalender\\adminDash\\credentials.json', SCOPES)
             creds = flow.run_local_server(port=0)
         with open('token.json', 'w') as token:
             token.write(creds.to_json())
@@ -48,12 +50,12 @@ def getDateEntries():
         for row in values:
             if len(row) < 10 or "" in row:
                 continue
-            entry = DateEntry(title=row[1], pub_date='2023-12-'+row[0], start_date='2023-12-'+row[0], end_date='2023-12-'+int(row[0]+1), videoLink=row[2], resolutionVidLink=row[3], question=row[5])
+            entry = DateEntry(title=row[1], pub_date='2023-12-'+row[0]+' 00:20:0', start_date='2023-12-'+row[0], end_date='2023-12-'+str(int(row[0])+1), videoLink=row[2], resolutionVidLink=row[3], question=row[5])
             entry.save()
-            r_answer = Choice(question=row[5], choice_text=row[6], isCorrect=True, votes=0)
-            w_answer1 = Choice(question=row[5], choice_text=row[7], isCorrect=False, votes=0)
-            w_answer2 = Choice(question=row[5], choice_text=row[8], isCorrect=False, votes=0)
-            w_answer3 = Choice(question=row[5], choice_text=row[9], isCorrect=False, votes=0)
+            r_answer = Choice(question=entry, choice_text=row[6], isCorrect=True, votes=0)
+            w_answer1 = Choice(question=entry, choice_text=row[7], isCorrect=False, votes=0)
+            w_answer2 = Choice(question=entry, choice_text=row[8], isCorrect=False, votes=0)
+            w_answer3 = Choice(question=entry, choice_text=row[9], isCorrect=False, votes=0)
             r_answer.save()
             w_answer1.save()
             w_answer2.save()

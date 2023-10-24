@@ -46,7 +46,7 @@ def addDaysToDB(request):
 
 @login_required
 @user_passes_test(admin_check)
-def importFromDoc():
+def importFromDoc(request):
 	dbMod.getDateEntries()
 
 	return redirect("database")
