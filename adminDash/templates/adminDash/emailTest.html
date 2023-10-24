@@ -1,0 +1,19 @@
+{% extends 'vidPlatform/header.html' %} 
+
+
+{% block content %}
+{% include 'adminDash/includes/dashNavbar.html' %}
+
+<form  action="/dashboard/EmailTestSend" class="p-4" method="post">
+	{% csrf_token %}
+	<div class="mb-3">
+		<label for="recipientInput" class="form-label">email to send test to</label>
+		<input type="email" class="form-control" id="emailInput" aria-describedby="mailInputHelp" name="recipientInput">
+		<div id="mailInputHelp" class="form-text">enter recipient of test email</div>
+	</div>
+	<button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+
+
+{% endblock %} 

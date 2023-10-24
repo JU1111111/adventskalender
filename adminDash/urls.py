@@ -1,12 +1,14 @@
 from django.urls import path
 from django.contrib.auth.decorators import user_passes_test
 
-from . import views
+from . import views, databaseresponses
 
 urlpatterns = [
     path("", views.index, name="index"),
-	path("database", views.database, name="database"),
-	path("database/addDaysToDB", views.addDaysToDB, name="addDaysToDB"),
-	path("database/importDB", views.importFromDoc, name="importFromDoc")
+	path("database", databaseresponses.database, name="database"),
+	path("database/addDaysToDB", databaseresponses.addDaysToDB, name="addDaysToDB"),
+	path("database/importDB", databaseresponses.importFromDoc, name="importFromDoc"),
+	path("EmailTest", views.emailTest, name="emailTest"),
+	path("EmailTestSend", views.emailTestSend, name="emailTestSend"),
 
 ]

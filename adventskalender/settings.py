@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from adminDash import emailTesters
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -132,3 +133,16 @@ LOGIN_URL = '/login'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+emailData = emailTesters.getDataFromTheJson()
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' 
+
+EMAIL_HOST = emailData['EMAIL_HOST']
+EMAIL_PORT  = emailData['EMAIL_PORT']
+EMAIL_HOST_USER = emailData['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = emailData['EMAIL_HOST_PASSWORD']
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
