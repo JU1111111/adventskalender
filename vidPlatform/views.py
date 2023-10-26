@@ -82,3 +82,7 @@ def detail(request, dateentry_id):
     else:
         print("is fucked")
         return Http404("Entry does not exist ")
+
+@login_required
+def infoView(request):
+    return render(request, "vidPlatform/infoPage.html")

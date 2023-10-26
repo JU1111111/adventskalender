@@ -7,10 +7,6 @@ import json
 
 
 
-
-
-
-
 def sendTestEmailTo(recipient):
 	emailData = getDataFromTheJson()
 

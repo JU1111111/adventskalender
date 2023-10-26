@@ -37,7 +37,6 @@ class DateEntry(models.Model):
         return name
 
 
-
 class Choice(models.Model):
     question = models.ForeignKey(DateEntry, on_delete=models.CASCADE)
     choice_text = models.CharField(max_length=200)
@@ -54,3 +53,8 @@ class Vote(models.Model):
             return True
         else:
             return False
+        
+
+
+
+

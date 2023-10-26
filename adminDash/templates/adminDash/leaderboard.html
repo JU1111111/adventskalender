@@ -1,0 +1,15 @@
+{% extends 'vidPlatform/header.html' %} 
+
+
+{% block content %}
+{% include 'adminDash/includes/dashNavbar.html' %}
+
+	<ul>
+		{% for entry in leaders %}
+			<li>{{entry.user_id}} with {{entry.correctVotesNumber}} correct Votes</li>
+		{% endfor %}
+	</ul>
+
+
+	
+{% endblock %} 
