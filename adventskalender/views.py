@@ -1,5 +1,5 @@
 from django.shortcuts import  render, redirect
-from .forms import NewUserForm
+from .forms import NewUserForm, NewStudentForm
 from django.contrib.auth import login
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
@@ -12,16 +12,35 @@ def register_request(request):
 	if request.method == "POST":
 		
 		form = NewUserForm(request.POST)
-		if form.is_valid():
+		form2 = NewStudentForm(request.POST)
+		if form.is_valid() & form2.is_valid():
 			print("form's Valid sheeeeeeeeesh")
-			user = form.save()
+			userMail = form.data['email']
+			username = userMail.replace('.',' ').split('@')[0]
+			user = form.save(commit=False)
+			user.username = username
+			user.last_name = username.split(' ')[-1]
+			firstName = ''
+			for name in username.split(' ')[:-1]:
+				firstName += f' {name}'
+			user.first_name = firstName
+			user.save()
+
+			student = form2.save(commit=False)
+			
+			student.user = user
+			student.save()
+			#student.user = user
+			#student.save()
+
 			login(request, user)
 			messages.success(request, "Registration successful." )
 			return redirect("/advent/")
-		print(form.errors)
+		print(form.errors, form2.errors)
 		messages.error(request, "Unsuccessful registration. Invalid information.")
 	form = NewUserForm()
-	return render(request, "adventskalender/regPage.html", {"register_form":form})
+	form2 = NewStudentForm
+	return render(request, "adventskalender/regPage.html", {"register_form":form, "registerStudent_form":form2})
 
 
 def login_request(request):
@@ -53,3 +72,9 @@ def logout_request(request):
 @login_required
 def account(request):
 	return render(request,"adventskalender/accountPage.html")
+
+
+
+@login_required
+def infoView(request):
+    return render(request, "adventskalender/infoPage.html")

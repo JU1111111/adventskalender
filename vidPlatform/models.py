@@ -55,6 +55,7 @@ class Vote(models.Model):
             return False
         
 
-
-
-
+class Student(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    studentYear = models.SmallIntegerField()
+    studentClass = models.CharField(max_length=1)

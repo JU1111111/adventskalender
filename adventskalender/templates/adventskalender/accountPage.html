@@ -6,7 +6,18 @@
 
 	<h1 class="display-2 p-3">Welcome, {{user.username}}</h1>
 
+	
+	
+	<dl class="row p-3">
+		<dt class="col-sm-3">Username</dt>
+		<dd class="col-sm-9">{{user.username}}</dd>
+	  
+		<dt class="col-sm-3">Email</dt>
+		<dd class="col-sm-9">{{user.email}}</dd>
+	  
+		<dt class="col-sm-3">Registiert am </dt>
+		<dd class="col-sm-9">{{user.date_joined.date}}</dd>
+	  </dl>
+	
 	<a type="button" class="btn btn-primary m-3" href="/logout">Logout</a>
-
-
 {% endblock %}
