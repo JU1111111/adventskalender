@@ -5,6 +5,12 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from django.core.mail import send_mail
+from .tokens import account_activation_token
+from django.contrib.sites.shortcuts import get_current_site
 
 
 
@@ -15,7 +21,8 @@ def register_request(request):
 		form2 = NewStudentForm(request.POST)
 		if form.is_valid() & form2.is_valid():
 			print("form's Valid sheeeeeeeeesh")
-			userMail = form.data['email']
+			#userMail = form.data['email']
+			userMail = form.cleaned_data.get('email')
 			username = userMail.replace('.',' ').split('@')[0]
 			user = form.save(commit=False)
 			user.username = username
@@ -24,12 +31,25 @@ def register_request(request):
 			for name in username.split(' ')[:-1]:
 				firstName += f' {name}'
 			user.first_name = firstName
+			user.is_active = False
 			user.save()
-
 			student = form2.save(commit=False)
-			
 			student.user = user
 			student.save()
+			
+			current_site = get_current_site(request)
+			mail_subject = 'Activate your account.'
+			context = {
+						'user': user,
+						'domain': current_site.domain,
+						'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+						'token': account_activation_token.make_token(user),
+					}
+			message = render_to_string('adventskalender/activateEmail.html', context)
+			to_email = userMail
+			send_mail(mail_subject, message, 'youremail', [to_email])
+
+
 			#student.user = user
 			#student.save()
 
@@ -77,4 +97,4 @@ def account(request):
 
 @login_required
 def infoView(request):
-    return render(request, "adventskalender/infoPage.html")
+	return render(request, "adventskalender/infoPage.html")

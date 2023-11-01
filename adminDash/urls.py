@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib.auth.decorators import user_passes_test
 
-from .views import views, viewsDatabase, viewsEmail, viewsLeaderboard
+from .views import views, viewsDatabase, viewsEmail, viewsLeaderboard, viewsEntryCheck
 
 urlpatterns = [
     path("", views.index, name="index"),
@@ -11,5 +11,6 @@ urlpatterns = [
 	path("EmailTest", viewsEmail.emailTest, name="emailTest"),
 	path("EmailTestSend", viewsEmail.emailTestSend, name="emailTestSend"),
 	path("leaderboard", viewsLeaderboard.leaderboard, name="leaderboard"),
+	path("EntryCheck", viewsEntryCheck.entryCheck, name="leaderboard"),
 
 ]

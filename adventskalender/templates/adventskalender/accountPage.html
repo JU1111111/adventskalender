@@ -17,6 +17,12 @@
 	  
 		<dt class="col-sm-3">Registiert am </dt>
 		<dd class="col-sm-9">{{user.date_joined.date}}</dd>
+
+		<dt class="col-sm-3">Jahrgang </dt>
+		<dd class="col-sm-9">{{user.student.studentYear}}</dd>
+
+		<dt class="col-sm-3">Klasse </dt>
+		<dd class="col-sm-9">{{user.student.studentClass}}</dd>
 	  </dl>
 	
 	<a type="button" class="btn btn-primary m-3" href="/logout">Logout</a>

@@ -1,0 +1,50 @@
+{% extends 'vidPlatform/header.html' %} 
+
+
+{% block content %}
+{% include 'vidPlatform/includes/navbar.html' %}
+{% load crispy_forms_tags %}
+<title>Tag Nr {{entry.id}}</title>
+
+<body>
+
+	{% if entry.title %}
+		<h1 class="display-2 px-3">{{entry.start_date}}</h1>
+	{% endif %}
+
+	<div class="row">
+		<div class="col-sm-8 px-4">
+			<div class="bs-example" data-example-id="responsive-embed-16by9-iframe-youtube">
+				<div class="embed-responsive embed-responsive-16by9">
+					<iframe class="embed-responsive-item" 
+					src="https://www.youtube.com/embed/{{entry.videoLink}}"
+					allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+					allowfullscreen>
+					</iframe>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<h1 class="display-5 px-3">{{entry.question}}</h1>
+
+
+	<div class="p-3">
+		<form action="/advent/{{entry.id}}/" method="POST">
+	
+			{% csrf_token %}
+			{{ form |crispy}}
+			<button class="btn btn-primary" type="submit">send her bud</button>
+		</form>
+	</div>
+
+	{% if messages %}
+		<ul class="messages">
+			{% for message in messages %}
+				<li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+
+</body>
+{% endblock %} 

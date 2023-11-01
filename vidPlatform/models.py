@@ -31,6 +31,20 @@ class DateEntry(models.Model):
         else:
             return False
         
+    def isOK(self):
+        if self.end_date < self.start_date:
+            return False
+        
+        choices = Choice.objects.filter(question=self)
+        numberOfCorrectChoices = 0
+        for choice in choices:
+            if choice.isCorrect:
+                numberOfCorrectChoices += 1
+        
+        if numberOfCorrectChoices != 1:
+            return False
+        
+        return True
 
     def __str__(self):
         name = f"{self.start_date}_{self.title}"
@@ -42,6 +56,9 @@ class Choice(models.Model):
     choice_text = models.CharField(max_length=200)
     isCorrect = models.BooleanField("Is Correct", default=False)
     votes = models.IntegerField(default=0)
+
+    def __str__(self) -> str:
+        return self.choice_text
     
 
 class Vote(models.Model):

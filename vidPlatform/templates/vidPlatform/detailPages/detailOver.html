@@ -27,20 +27,36 @@
 
 	<h1 class="display-5 px-3">{{entry.question}}</h1>
 
-	<div class="form-check m-3">
-		<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" disabled>
-		<label class="form-check-label" for="flexRadioDefault1">
-		  Default radio
-		</label>
-	</div>
+	{%for choice in choices%}
+			<div class="form-check m-3">
+				{%if choice.id == choosen%}
+					<input class="form-check-input " 
+					type="radio" 
+					name="choiceRadio" 
+					id="flexRadioDefault1" 
+					value="{{choice.id}}" checked>
+				{% else %}
+					<input class="form-check-input {{bg}}" 
+					type="radio" 
+					name="choiceRadio" 
+					id="flexRadioDefault1" 
+					value="{{choice.id}}">
+				{%endif%}
 
-	<div class="form-check m-3">
-	<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked disabled>
-	<label class="form-check-label" for="flexRadioDefault2">
-		Default checked radio
-	</label>
-	</div>
-	</div>
+				{%if choice.isCorrect%}
+					<label class="form-check-label bg-bg-success-subtle" for="choiceRadio">
+					{{choice.choice_text}} <i class="bi bi-check-circle" style=" color: limegreen;"></i>
+					</label>
+				{%else%}
+					<label class="form-check-label" for="choiceRadio">
+					{{choice.choice_text}} 
+					
+					</label>
+				{%endif%}
+			</div>
+		{%endfor%}
+
+
 
 	<h1 class="display-5 px-3">Auflösung</h1>
 	<div class="row">

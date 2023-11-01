@@ -1,0 +1,52 @@
+{% extends 'vidPlatform/header.html' %} 
+
+
+{% block content %}
+{% include 'adminDash/includes/dashNavbar.html' %}
+
+	<table class="table table-dark table-striped">
+		<thead>
+			<tr>
+			  <th scope="col">ID</th>
+			  <th scope="col">State</th>
+			  <th scope="col">Is OK</th>
+			  <th scope="col">title</th>
+			</tr>
+		</thead>
+
+		{% load entryCheckTT %}
+		{% for entry in entries %}
+			<!--{{ forloop.counter0 }}-->
+			{%getState entry as state%}
+			{%validateIfOK entry as IsOK%}
+			<tr>
+				<th scope="row">{{entry.id}}</th>
+				<td>
+					{%if state == 'Active'%}
+						<div style=" color: limegreen;">ACTIVE</div>
+					{%elif state == 'Past'%}
+						<div style=" color: yellow;">Over</div>
+					{%elif state == 'in Future'%}
+						<div style=" color: blue;">In Future</div>
+					{%endif%}
+				</td>
+
+				</td>
+				<td>
+					{%if IsOK%}
+						<i class="bi bi-check-circle" style=" color: limegreen;"></i>
+					{%else%}
+						<i class="bi bi-exclamation-circle" style=" color: red;"></i>
+					{%endif%}
+				</td>
+				<td>{{ entry.title }}</td>
+			</tr>
+		
+		{% endfor %}
+		
+	</table>
+
+
+
+
+{% endblock %} 
