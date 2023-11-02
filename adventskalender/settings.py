@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'vidPlatform.apps.VidplatformConfig',
 	'adventskalender.apps.AdventskalenderConfig',
 	'adminDash.apps.AdmindashConfig',
+	'verifier.apps.VerifierConfig',
 	"crispy_forms",
     "crispy_bootstrap5",
 ]

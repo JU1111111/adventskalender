@@ -18,11 +18,13 @@ from django.contrib import admin
 from django.urls import path, include 
 from adventskalender import views
 
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 	path('dashboard/', include("adminDash.urls")),
-    path('advent/', include("vidPlatform.urls")),
-	path('register/', views.register_request, name="register_request"),
+    path('advent/', include("vidPlatform.urls"), name='home'),
+	path('register/', include("verifier.urls"), name="register_request"),
 	path('login/', views.login_request, name="login"),
 	path('account/', views.account, name="account"),
 	path('logout/', views.logout_request, name="logout"),

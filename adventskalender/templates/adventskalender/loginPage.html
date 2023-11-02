@@ -9,6 +9,17 @@
 
 <!--Login--> 
 <div class="container py-5">
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'debug' %}light{% else %}{{message.tags}}{% endif %}" role="alert">
+        {{ message | safe}}
+      </div>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+
   <h1>Login</h1>
 
   <form method="POST">
