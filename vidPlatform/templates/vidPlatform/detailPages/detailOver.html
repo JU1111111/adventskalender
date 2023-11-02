@@ -3,6 +3,7 @@
 
 {% block content %}
 {% include 'vidPlatform/includes/navbar.html' %}
+{% load crispy_forms_tags %}
 <title>Tag Nr {{entry.id}}</title>
 
 <body>
@@ -25,36 +26,17 @@
 		</div>
 	</div>
 
-	<h1 class="display-5 px-3">{{entry.question}}</h1>
 
-	{%for choice in choices%}
-			<div class="form-check m-3">
-				{%if choice.id == choosen%}
-					<input class="form-check-input " 
-					type="radio" 
-					name="choiceRadio" 
-					id="flexRadioDefault1" 
-					value="{{choice.id}}" checked>
-				{% else %}
-					<input class="form-check-input {{bg}}" 
-					type="radio" 
-					name="choiceRadio" 
-					id="flexRadioDefault1" 
-					value="{{choice.id}}">
-				{%endif%}
+	<h1 class="display-4 px-4">{{entry.question}}</h1>
 
-				{%if choice.isCorrect%}
-					<label class="form-check-label bg-bg-success-subtle" for="choiceRadio">
-					{{choice.choice_text}} <i class="bi bi-check-circle" style=" color: limegreen;"></i>
-					</label>
-				{%else%}
-					<label class="form-check-label" for="choiceRadio">
-					{{choice.choice_text}} 
-					
-					</label>
-				{%endif%}
-			</div>
-		{%endfor%}
+
+	<div class="p-4">
+		<form action="/advent/{{entry.id}}/" method="POST">
+			{% csrf_token %}
+			{{ form }}
+			<button class="btn btn-primary" type="submit" disabled>Speichern</button>
+		</form>
+	</div>
 
 
 

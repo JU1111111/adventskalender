@@ -1,11 +1,12 @@
 from django.shortcuts import render, get_object_or_404
 from ..models import DateEntry, Choice, Vote
-from ..forms import VoteForm
+
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import loader
 import datetime
 from django.contrib.auth.decorators import login_required
-from .viewActive import get_name
+from .viewActive import isActive
+from .viewOver import isOver
 
 @login_required
 def index(request):
@@ -26,58 +27,22 @@ def index(request):
 
 @login_required
 def detail(request, dateentry_id):
-	user = request.user
 	today = datetime.date.today()
-	alreadyVotedChoice = None
-	userVotetoday = []
 
 	try:
 		dateEntry = get_object_or_404(DateEntry, pk=dateentry_id)
-		choices = Choice.objects.filter(question=dateEntry)
-		userVoteToday = Vote.objects.filter(author = user.id).filter(choice__question=dateEntry)
-		if userVoteToday:
-			alreadyVotedChoice = userVoteToday[0].choice
-
 	except DateEntry.DoesNotExist:
 		raise Http404("date entry doesnt exist")
 
-	
-
 
 	if (dateEntry.isActive(today)):
-		#return get_name(request, dateentry_id)
-		justVoted = False
-		if request.method == "POST":
-			selectedChoiceID = request.POST.__getitem__("choiceRadio")
-			choice = Choice.objects.get(pk=selectedChoiceID)
-			theVote = Vote(author=user, choice=choice)
-			if userVoteToday:
-				userVoteToday.delete()
-			alreadyVotedChoice = theVote.choice
-			theVote.save()
-			justVoted = True
-
-		context = {"entry": dateEntry,
-					"choices": choices,
-					"justVoted": justVoted,
-					}
-		if alreadyVotedChoice:
-			context["choosen"] = alreadyVotedChoice.id
-		return render(request,"vidPlatform/detailPages/detailActive.html", context )
+		return isActive(request, dateentry_id)
 	
 	elif(dateEntry.isInTheFuture(today)):
-		print("is in future")
 		return render(request,"vidPlatform/detailPages/detailFuture.html", {"entry":dateEntry} )
 	
 	elif (dateEntry.isOver(today)):
-		print("is over")
-		context = {"entry":dateEntry,
-					"choices":choices, 
-					}
-		if userVotetoday:
-			context["choosen"] = userVotetoday[0]
-
-		return render(request,"vidPlatform/detailPages/detailOver.html", context=context)
+		return isOver(request, dateentry_id)
 	
 	else:
 		print("is fucked")

@@ -26,15 +26,14 @@
 		</div>
 	</div>
 
-	<h1 class="display-5 px-3">{{entry.question}}</h1>
+	<h1 class="display-4 px-4">{{entry.question}}</h1>
 
 
-	<div class="p-3">
+	<div class="p-4">
 		<form action="/advent/{{entry.id}}/" method="POST">
-	
 			{% csrf_token %}
 			{{ form |crispy}}
-			<button class="btn btn-primary" type="submit">send her bud</button>
+			<button class="btn btn-primary" type="submit">Speichern</button>
 		</form>
 	</div>
 

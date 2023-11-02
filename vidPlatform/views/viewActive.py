@@ -7,29 +7,34 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.contrib import messages
 
 
-def get_name(request, dateentry_id):
+def isActive(request, dateentry_id):
 	try:
 		dateEntry = get_object_or_404(DateEntry, pk=dateentry_id)
-		choices = Choice.objects.filter(question=dateEntry)
+		choices = Choice.objects.filter(question=dateEntry).order_by('?')
+		alreadyVoted = Vote.objects.filter(choice__in=choices, author=request.user)
 	except DateEntry.DoesNotExist:
 		raise Http404("date entry doesnt exist")
 
 
-	# if this is a POST request we need to process the form data
 	if request.method == "POST":
-		# create a form instance and populate it with data from the request:
 		form = VoteForm(request.POST)
-		#form.fields['choicesField'].label = ''
-		# check whether it's valid:
-		#if form.is_valid():
-		thechosenone = form.data["ModelChoiceField"]
-			#messages.success(request, 'Form submission successful')
+
+		if form.is_valid():
+			vote = form.save(commit=False)
+			vote.author = request.user
+			if alreadyVoted:
+				alreadyVoted.delete()
+			vote.save()
+
 		return HttpResponseRedirect(f"/advent/{dateentry_id}/")
 
-	# if a GET (or any other method) we'll create a blank form
 	else:
 		form = VoteForm()
-		form.fields['choicesField'].queryset = choices
-		form.fields['choicesField'].label = ''
-	print("yeet")
+		choicesField = form.fields['choice']
+		choicesField.queryset = choices
+
+		if alreadyVoted:
+			choicesField.initial = alreadyVoted[0].choice
+
+		print("yeet")
 	return render(request, "vidPlatform/detailPages/detailActive2.html", {"form": form, "entry":dateEntry})
