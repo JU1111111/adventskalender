@@ -4,7 +4,7 @@ import datetime
 
 
 def entryCheck(request):
-	entries = DateEntry.objects.all()
+	entries = DateEntry.objects.all().order_by('start_date')
 	okOrNah = []
 	activity = []
 
@@ -27,8 +27,7 @@ def entryCheck(request):
 
 	context = {
 		"entries": entries,
-		"okStates": okOrNah,
-		"activity": activity,
+
 	}
 	
 	return render(request, 'adminDash/entryCheck.html', context)
