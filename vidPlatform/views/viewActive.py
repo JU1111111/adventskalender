@@ -25,6 +25,8 @@ def isActive(request, dateentry_id):
 			if alreadyVoted:
 				alreadyVoted.delete()
 			vote.save()
+			messages.success(request, "Erfolgreich gewählt")
+
 
 		return HttpResponseRedirect(f"/advent/{dateentry_id}/")
 

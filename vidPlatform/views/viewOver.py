@@ -13,16 +13,18 @@ def isOver(request, dateentry_id):
 	except DateEntry.DoesNotExist:
 		raise Http404("date entry doesnt exist")
 
-	form = VoteForm()
-	choicesField = form.fields['choice']
-	choicesField.queryset = choices
+	#form = VoteForm()
+	#choicesField = form.fields['choice']
+	#choicesField.queryset = choices
 	#choicesField.disabled = True
 
-
+	
 	if alreadyVoted:
-		choicesField.initial = alreadyVoted[0].choice
+		voted = alreadyVoted[0].choice
+	else:
+		voted = None
 
-	renderedForm = 	form.render("vidPlatform/snippets/voteFormsnippet.html")
+	#renderedForm = 	form.render("vidPlatform/snippets/voteFormsnippet.html")
 
-	context = {"entry":dateEntry, "form":renderedForm}
+	context = {"entry":dateEntry, "choices":choices, "votedFor":voted}
 	return render(request,"vidPlatform/detailPages/detailOver.html", context=context)
