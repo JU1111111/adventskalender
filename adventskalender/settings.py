@@ -8,6 +8,9 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
+
+
+version = 3.10.7
 """
 
 from pathlib import Path
