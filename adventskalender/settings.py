@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 	'verifier.apps.VerifierConfig',
 	"crispy_forms",
     "crispy_bootstrap5",
+    "secure",
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -104,17 +105,8 @@ AUTHENTICATION_BACKENDS = ['adventskalender.customAuth.EmailBackend']
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    }
 ]
 
 

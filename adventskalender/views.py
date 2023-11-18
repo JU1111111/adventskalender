@@ -18,9 +18,10 @@ from django.utils.encoding import force_bytes, force_str
 
 
 
-def register_request(request):
+def register_request(request):#
+	msg = ""
+	typemsg = ""
 	if request.method == "POST":
-		
 		form = NewUserForm(request.POST)
 		form2 = NewStudentForm(request.POST)
 		if form.is_valid() & form2.is_valid():
@@ -60,13 +61,13 @@ def register_request(request):
 			#student.save()
 
 			login(request, user)
-			messages.success(request, "Registration successful." )
 			return redirect("/advent/")
 		print(form.errors, form2.errors)
-		messages.error(request, "Unsuccessful registration. Invalid information.")
+		msg = "Unsuccessful registration. Invalid information."
+		typemsg = "error"
 	form = NewUserForm()
 	form2 = NewStudentForm
-	return render(request, "adventskalender/regPage.html", {"register_form":form, "registerStudent_form":form2})
+	return render(request, "adventskalender/regPage.html", {"register_form":form, "registerStudent_form":form2, "message":msg, "type": typemsg})
 
 
 def activate(request, uidb64, token):
@@ -86,7 +87,14 @@ def activate(request, uidb64, token):
 	
 
 def login_request(request):
+	if request.method == "GET" and request.COOKIES.get('seccookie') != "QWR2M250c2thbDNuZDNyIQ==":
+		return redirect('/secure')
+	if request.user.is_authenticated:
+		return redirect('/advent')
+	message = ""
+	typemessage = ""
 	if request.method == "POST":
+		print(request.POST)
 		form = AuthenticationForm(request, data=request.POST)
 		form.base_fields['username'].label = 'Email'
 		if form.is_valid():
@@ -95,17 +103,19 @@ def login_request(request):
 			user = authenticate(username=username, password=password)
 			if user is not None:
 				login(request, user)
-				messages.info(request, f"You are now logged in as {username}.")
 				return redirect("/advent/")
-			else:
-				messages.error(request,"Invalid username or password.")
+			message = "Invalid username or password."
+			typemessage = "error"
 		elif form.error_messages['inactive']:
-			messages.error(request,"Bitte aktiviere deinen Account.")
+			message = "Bitte aktiviere deinen Account."
+			typemessage = "error"
 		else:
-			messages.error(request,"Invalid username or password.")
+			message = "Invalid username or password."
+			typemessage = "error"
 	form = AuthenticationForm()
 	form.base_fields['username'].label = 'Email'
-	return render(request=request, template_name="adventskalender/loginPage.html", context={"login_form":form})
+	print(request.method, message, typemessage)
+	return render(request=request, template_name="adventskalender/loginPage.html", context={"login_form":form, "message":message, "type":typemessage})
 
 
 

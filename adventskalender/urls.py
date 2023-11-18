@@ -26,7 +26,9 @@ urlpatterns = [
     path('advent/', include("vidPlatform.urls"), name='home'),
 	path('register/', include("verifier.urls"), name="register_request"),
 	path('login/', views.login_request, name="login"),
+    path('', include("vidPlatform.urls"), name="redirect"),
 	path('account/', views.account, name="account"),
 	path('logout/', views.logout_request, name="logout"),
 	path("info/", views.infoView, name="info"),
+    path("secure/", include("secure.urls"), name="secure")
 ]

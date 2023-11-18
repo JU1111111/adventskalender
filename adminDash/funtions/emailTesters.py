@@ -31,7 +31,7 @@ def sendTestEmailTo(recipient):
 
 
 def getDataFromTheJson():
-	with open('adminDash\emailData.json', 'r') as openfile:
+	with open('adminDash/emailData.json', 'r') as openfile:
 		emData = json.load(openfile)
 
 	print(emData)
