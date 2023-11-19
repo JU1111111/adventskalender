@@ -1,4 +1,5 @@
 from datetime import timedelta
+import datetime
 from vidPlatform.models import DateEntry, Choice, Vote
 import os.path
 from google.auth.transport.requests import Request
@@ -37,7 +38,7 @@ def getDateEntries():
 			creds.refresh(Request())
 		else:
 			flow = InstalledAppFlow.from_client_secrets_file(
-				'C:\\Users\\Julian\\Desktop\\advendskalenderDjango\\adventskalender\\adminDash\\credentials.json', SCOPES)
+				'./adminDash/credentials.json', SCOPES)
 			creds = flow.run_local_server(port=0)
 		with open('token.json', 'w') as token:
 			token.write(creds.to_json())
@@ -56,7 +57,7 @@ def getDateEntries():
 			if len(row) < 10 or "" in row:
 				print(len(row))
 				continue
-			entry = DateEntry(title=row[1], pub_date='2023-12-'+row[0]+' 00:20:0', start_date='2023-12-'+row[0], end_date='2023-12-'+str(int(row[0])+1), videoLink=row[2], resolutionVidLink=row[3], question=row[7])
+			entry = DateEntry(title=row[1], pub_date=datetime.datetime.now(), start_date='2023-12-'+row[0], end_date='2023-12-'+str(int(row[0])+1), videoLink=row[2], resolutionVidLink=row[3], question=row[7])
 			entry.save()
 			r_answer = Choice(question=entry, choice_text=row[8], isCorrect=True, votes=0)
 			w_answer1 = Choice(question=entry, choice_text=row[9], isCorrect=False, votes=0)
