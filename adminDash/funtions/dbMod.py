@@ -12,7 +12,7 @@ from adminDash.models import CorrectUserVotes
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 SAMPLE_SPREADSHEET_ID = '1oGrpsrnZnyuF8eBdKHlUTh7NrN4tpqIvNZEPlD6UPQM'
-SAMPLE_RANGE_NAME = 'A2:J'
+SAMPLE_RANGE_NAME = 'A2:L'
 
 
 def changeDateOfAllEntries(DaysToAdd):
@@ -54,13 +54,14 @@ def getDateEntries():
 		#Code
 		for row in values:
 			if len(row) < 10 or "" in row:
+				print(len(row))
 				continue
-			entry = DateEntry(title=row[1], pub_date='2023-12-'+row[0]+' 00:20:0', start_date='2023-12-'+row[0], end_date='2023-12-'+str(int(row[0])+1), videoLink=row[2], resolutionVidLink=row[3], question=row[6])
+			entry = DateEntry(title=row[1], pub_date='2023-12-'+row[0]+' 00:20:0', start_date='2023-12-'+row[0], end_date='2023-12-'+str(int(row[0])+1), videoLink=row[2], resolutionVidLink=row[3], question=row[7])
 			entry.save()
-			r_answer = Choice(question=entry, choice_text=row[7], isCorrect=True, votes=0)
-			w_answer1 = Choice(question=entry, choice_text=row[8], isCorrect=False, votes=0)
-			w_answer2 = Choice(question=entry, choice_text=row[9], isCorrect=False, votes=0)
-			w_answer3 = Choice(question=entry, choice_text=row[10], isCorrect=False, votes=0)
+			r_answer = Choice(question=entry, choice_text=row[8], isCorrect=True, votes=0)
+			w_answer1 = Choice(question=entry, choice_text=row[9], isCorrect=False, votes=0)
+			w_answer2 = Choice(question=entry, choice_text=row[10], isCorrect=False, votes=0)
+			w_answer3 = Choice(question=entry, choice_text=row[11], isCorrect=False, votes=0)
 			r_answer.save()
 			w_answer1.save()
 			w_answer2.save()
