@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import DateEntry, Choice, Vote
+from .models import DateEntry, Choice, Vote, Student
 
 
 class choiceInline(admin.StackedInline):
@@ -23,7 +23,11 @@ class DateEntryAdmin(admin.ModelAdmin):
 
 
 
+
+
+
 # Register your models here.
 admin.site.register(DateEntry, DateEntryAdmin)
 admin.site.register(Choice)
 admin.site.register(Vote)
+admin.site.register(Student)

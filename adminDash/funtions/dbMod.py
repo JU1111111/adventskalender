@@ -1,6 +1,6 @@
 from datetime import timedelta
 import datetime
-from vidPlatform.models import DateEntry, Choice, Vote
+from vidPlatform.models import DateEntry, Choice, Vote, Student
 import os.path
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -9,11 +9,13 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from django.contrib.auth import get_user_model
 from adminDash.models import CorrectUserVotes
-
+from django.contrib.auth import get_user_model
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 SAMPLE_SPREADSHEET_ID = '1oGrpsrnZnyuF8eBdKHlUTh7NrN4tpqIvNZEPlD6UPQM'
 SAMPLE_RANGE_NAME = 'A2:L'
+
+UserModel = get_user_model()
 
 
 def changeDateOfAllEntries(DaysToAdd):
@@ -87,10 +89,33 @@ def refreshCurrentWinners():
 		correctVotesDBEntry.save()
 	
 
+def getWinnersUpToYesterday(fromYears:[]):
+
+	allUsers = UserModel.objects.filter(student__studentYear__in=fromYears)
+
+	numOfCorrects = {}
+	for user in allUsers:
+		NumOfRightVotes = Vote.objects.filter(choice__isCorrect=True, author=user, choice__question__end_date__lte=datetime.datetime.today).count()
+		numOfCorrects[user.get_username()] = NumOfRightVotes
+
+		correctVotesDBEntry = CorrectUserVotes(user=user,correctVotesNumber = NumOfRightVotes)
+		correctVotesDBEntry.save()
+
+	return numOfCorrects
+
+
+
+	
+
 
 def getCurrentWinners(refresh=False):
+	winnerz = getWinnersUpToYesterday([12,13])
+
+	'''
 	if refresh:
 		refreshCurrentWinners()
 	
+	getWinnersUpToYesterday([12,13])
 	allRightVotes = CorrectUserVotes.objects.all().order_by("-correctVotesNumber")
 	return allRightVotes
+	'''
