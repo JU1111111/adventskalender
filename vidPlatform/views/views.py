@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from ..models import DateEntry, Choice, Vote
 
 from django.http import HttpResponse, Http404, HttpResponseRedirect
@@ -39,7 +39,7 @@ def detail(request, dateentry_id):
 		return isActive(request, dateentry_id)
 	
 	elif(dateEntry.isInTheFuture(today)):
-		return render(request,"vidPlatform/detailPages/detailFuture.html", {"entry":dateEntry} )
+		return redirect('/advent')
 	
 	elif (dateEntry.isOver(today)):
 		return isOver(request, dateentry_id)

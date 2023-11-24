@@ -39,4 +39,4 @@ def isActive(request, dateentry_id):
 			choicesField.initial = alreadyVoted[0].choice
 
 		print("yeet")
-	return render(request, "vidPlatform/detailPages/detailActive2.html", {"form": form, "entry":dateEntry})
+	return render(request, "vidPlatform/detailPages/detailActive.html", {"form": form, "entry":dateEntry})

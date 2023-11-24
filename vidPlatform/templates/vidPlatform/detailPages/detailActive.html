@@ -3,59 +3,70 @@
 
 {% block content %}
 {% include 'vidPlatform/includes/navbar.html' %}
+{% load crispy_forms_tags %}
 <title>Tag Nr {{entry.id}}</title>
 
-<body>
-
-	{% if entry.title %}
-		<h1 class="display-2 px-3">{{entry.title}}</h1>
-	{% endif %}
-
-	<div class="row">
-		<div class="col-sm-8">
-			<div class="bs-example" data-example-id="responsive-embed-16by9-iframe-youtube">
-				<div class="embed-responsive embed-responsive-16by9">
-					<iframe class="embed-responsive-item" 
-					src="https://www.youtube.com/embed/{{entry.videoLink}}"
-					allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-					allowfullscreen>
-					</iframe>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<h1 class="display-2 px-3">Deine Wahl</h1>
-	<h1 class="display-5 px-3">{{entry.question}}</h1>
-
-	<div>
-		<form action="/advent/{{entry.id}}/" method="post">
-		{% csrf_token %}
-
-
-		{%for choice in choices%}
-			<div class="form-check m-3">
-				{%if choice.id == choosen%}
-					<input class="form-check-input" type="radio" name="choiceRadio" id="flexRadioDefault1" value="{{choice.id}}" checked>
-				{% else %}
-					<input class="form-check-input" type="radio" name="choiceRadio" id="flexRadioDefault1" value="{{choice.id}}">
+<svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+	<symbol id="check-circle-fill" viewBox="0 0 16 16">
+	  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+	</symbol>
+</svg>
+<div>
+	{% if messages %}
+		<ul class="messages">
+		{% for message in messages %}
+			<div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'debug' %}light{% else %}{{message.tags}}{% endif %} d-flex align-items-center me-4 mt-2" role="alert">
+				{% if message.tags == 'success' %}
+					<i class="bi bi-check-circle" style=" color: limegreen;"> </i> &nbsp
 				{%endif%}
-				<label class="form-check-label" for="choiceRadio">
-				{{choice.choice_text}}
-				</label>
+				<div>
+					{{ message | safe}}
+				</div>
+
 			</div>
-		{%endfor%}
+		{% endfor %}
+		</ul>
+	{% endif %}
+</div>
 
-		{%if justVoted%}
-		<div class="alert alert-success" role="alert">
-			Erfolgreich gewählt
-			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-		  </div>
-		{%endif%}
+<div
+      class="container mt-5 rounded p-3"
+      style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px"
+    >
+      <a class="btn btn-dark mb-3 px-3" href="/advent">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="ratio ratio-4x3">
+            <iframe
+              src="https://www.youtube.com/embed/{{entry.videoLink}}?autoplay=0&mute=0"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
 
-		<button class="btn btn-primary m-3" type="submit">Save</button>
-		</form>
-
+        <div class="col-md-6 mt-3">
+		{% if entry.title %}
+          <h3 class="text-center text-primary">{{entry.start_date}}</h3>
+		{% endif %}
+          <!-- Question -->
+          <div class="mt-3">
+            <strong>
+				{{entry.question}}
+            </strong>
+          </div>
+          <div class="mt-3">
+			<!-- Submit button -->
+			<form action="/advent/{{entry.id}}/" method="POST">
+				{% csrf_token %}
+				{{ form |crispy}}
+				<button class="btn btn-primary mt-3">Senden</button>
+				</form>
+          </div>
+          
+        </div>
 	</div>
-</body>
+    </div>
+
 {% endblock %} 

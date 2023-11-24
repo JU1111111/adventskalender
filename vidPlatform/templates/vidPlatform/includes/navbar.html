@@ -1,21 +1,42 @@
-
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-	<div class="container-fluid">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<!-- Container wrapper -->
+	<div class="container">
+	  <!-- Navbar brand -->
 	  <a class="navbar-brand" href="/advent">PHÄNOMENaler Adventskalender</a>
-	  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
+
+	  <!-- Toggle button -->
+	  <button
+		class="navbar-toggler"
+		type="button"
+		data-mdb-toggle="collapse"
+		data-mdb-target="#navbarButtons"
+		aria-controls="navbarButtons"
+		aria-expanded="false"
+		aria-label="Toggle navigation"
+	  >
+		<i class="fas fa-bars"></i>
 	  </button>
-	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+	  <!-- Collapsible wrapper -->
+	  <div class="collapse navbar-collapse" id="navbarButtons">
+		<!-- Left links -->
 		<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 		  <li class="nav-item">
 			<a class="nav-link" href="#">Leaderboard</a>
 		  </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/info">Info</a>
-        </li>
 		  <li class="nav-item">
-			<a class="nav-link active" href="/account" >Account</a>
-		  </li>	
+			<a class="nav-link" href="/account">Account</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="/info">Information</a>
+		  </li>
+		</ul>
+		<!-- Left links -->
+		<div class="d-flex align-items-center">
+		  <a type="button" class="btn btn-primary" href="/logout">Logout</a>
+		</div>
 	  </div>
+	  <!-- Collapsible wrapper -->
 	</div>
+	<!-- Container wrapper -->
   </nav>
