@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from .forms import NameForm
-from django.views.decorators.csrf import csrf_protect
 
-@csrf_protect
 def secure(request):
     if request.user.is_authenticated:
         return redirect('/advent')
