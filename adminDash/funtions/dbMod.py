@@ -76,26 +76,17 @@ def getDateEntries():
 		print(err)
 
 
-def refreshCurrentWinners():
-	CorrectUserVotes.objects.all().delete()
-	UserModel = get_user_model()
-	allUsers = UserModel.objects.all()
-
-	for user in allUsers:
-		rightVotes =Vote.objects.filter(choice__isCorrect=True, author=user)
-		numberOfCorrectVotes = rightVotes.count()
-
-		correctVotesDBEntry = CorrectUserVotes(user=user,correctVotesNumber = numberOfCorrectVotes)
-		correctVotesDBEntry.save()
 	
 
-def getWinnersUpToYesterday(fromYears:[]):
+def refreshWinnersUpToYesterday():
 
-	allUsers = UserModel.objects.filter(student__studentYear__in=fromYears)
+	currentCorrects = CorrectUserVotes.objects.all().delete()
+
+	allUsers = UserModel.objects.filter()
 
 	numOfCorrects = {}
 	for user in allUsers:
-		NumOfRightVotes = Vote.objects.filter(choice__isCorrect=True, author=user, choice__question__end_date__lte=datetime.datetime.today).count()
+		NumOfRightVotes = Vote.objects.filter(choice__isCorrect=True, author=user, choice__question__end_date__lte=datetime.datetime.today()).count()
 		numOfCorrects[user.get_username()] = NumOfRightVotes
 
 		correctVotesDBEntry = CorrectUserVotes(user=user,correctVotesNumber = NumOfRightVotes)
@@ -108,14 +99,13 @@ def getWinnersUpToYesterday(fromYears:[]):
 	
 
 
-def getCurrentWinners(refresh=False):
-	winnerz = getWinnersUpToYesterday([12,13])
+def getCurrentWinners(years:[], refresh=False):
+	#numOfCorrect = refreshWinnersUpToYesterday()
 
-	'''
+
 	if refresh:
-		refreshCurrentWinners()
+		refreshWinnersUpToYesterday()
 	
-	getWinnersUpToYesterday([12,13])
-	allRightVotes = CorrectUserVotes.objects.all().order_by("-correctVotesNumber")
-	return allRightVotes
-	'''
+
+	winnerz = CorrectUserVotes.objects.filter(user__student__studentYear__in=years).order_by("-correctVotesNumber")[:10]
+	return winnerz

@@ -29,8 +29,9 @@ SECRET_KEY = 'django-insecure-8=tp#+g^!f*58(7+*&c!ub*^kk2+faxg$#7v_n06+clmk_ajgd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["13g-advent.de","www.13g-advent.de"]
+ALLOWED_HOSTS = ["13g-advent.de","www.13g-advent.de", '127.0.0.1' ]
 
+CSRF_TRUSTED_ORIGINS = ['https://13g-advent.de','https://www.13g-advent.de']
 
 
 # Application definition
