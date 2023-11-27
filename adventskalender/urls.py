@@ -30,5 +30,7 @@ urlpatterns = [
 	path('account/', views.account, name="account"),
 	path('logout/', views.logout_request, name="logout"),
 	path("info/", views.infoView, name="info"),
-    path("secure/", include("secure.urls"), name="secure")
+    path("secure/", include("secure.urls"), name="secure"),
+    path("datenschutz/", include("datenschutz.urls"), name="datenschutz"),
+    path("impressum/", include("impressum.urls"), name="impressum"),
 ]
