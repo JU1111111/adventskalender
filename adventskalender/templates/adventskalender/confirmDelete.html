@@ -1,0 +1,47 @@
+{% extends 'vidPlatform/header.html' %} 
+
+
+{% block content %}
+{% include 'vidPlatform/includes/navbar.html' %}
+
+<div class="m-4">
+	<h1> Wirklich löschen ?</h1>
+
+	<h3 style="color: #ff0404">
+	Du bist im Begriff deinen Account irreversibel zu löschen. Bist du dir sicher?
+	</h3>
+	<p>
+	<h5>
+		<p>Deine Nutzerdaten und deine gewählten Lösungen werden vollständig gelöscht 
+	</h5>
+
+</div>
+
+
+<div class="d-flex flex-row mb-3 ms-4">
+	<div class="p-2">
+		<a
+		type="button"
+		class="btn btn-success me-1 flex-grow-1"
+		href="/account"
+		>
+		Nein, zurück
+		</a>
+	</div>
+	<div class="p-2">
+		<form  action="/account/delete/True/" method="post">
+			{% csrf_token %}
+			<button
+				type="submit"
+				class="btn btn-danger me-1 flex-grow-1"
+			>
+			JA, Account Löschen
+			</button>
+		</form>
+	</div>
+
+
+</div>
+
+{% include 'vidPlatform/includes/footer.html' %}
+{% endblock %}

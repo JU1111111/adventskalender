@@ -15,6 +15,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from adminDash.funtions.emailTesters import getDataFromTheJson
 from django.http import HttpResponse
 from django.utils.encoding import force_bytes, force_str
+from django.contrib import messages
 
 
 
@@ -77,6 +78,19 @@ def logout_request(request):
 @login_required
 def account(request):
 	return render(request,"adventskalender/accountPage.html")
+
+
+@login_required
+def delAccount(request, confirm_commit):
+	if confirm_commit == "True":
+		request.user.delete()
+		messages.add_message(request,messages.SUCCESS, "Dein Account wurde erfolgreich gelöscht")
+		return redirect('/')
+	elif confirm_commit == "False":
+		return render(request,"adventskalender/confirmDelete.html")
+
+
+		
 
 
 '''

@@ -30,6 +30,7 @@ urlpatterns = [
 	path('register/', include("verifier.urls"), name="register_request"),
 	path('login/', accountViews.login_request, name="login"),
 	path('account/', accountViews.account, name="account"),
+	path('account/delete/<str:confirm_commit>/', accountViews.delAccount, name="delAccount"),
 	path('logout/', accountViews.logout_request, name="logout"),
 	path('leaderboard', infoViews.leaderBoardView, name='leaderboard'),
 	path("info/", infoViews.infoView, name="info"),
