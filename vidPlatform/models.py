@@ -1,6 +1,8 @@
 from django.db import models
 from datetime import datetime, timedelta
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
+
 
 # Create your models here.
 
@@ -74,5 +76,10 @@ class Vote(models.Model):
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    studentYear = models.SmallIntegerField()
+    studentYear = models.IntegerField(
+        validators=[
+            MaxValueValidator(13),
+            MinValueValidator(5)
+        ]
+     )
     studentClass = models.CharField(max_length=1)

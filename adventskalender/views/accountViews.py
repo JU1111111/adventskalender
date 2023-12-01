@@ -18,57 +18,6 @@ from django.utils.encoding import force_bytes, force_str
 
 
 
-def register_request(request):#
-	msg = ""
-	typemsg = ""
-	if request.method == "POST":
-		form = NewUserForm(request.POST)
-		form2 = NewStudentForm(request.POST)
-		if form.is_valid() & form2.is_valid():
-			print("form's Valid sheeeeeeeeesh")
-			#userMail = form.data['email']
-			userMail = form.cleaned_data.get('email')
-			username = userMail.replace('.',' ').split('@')[0]
-			user = form.save(commit=False)
-			user.username = username
-			user.last_name = username.split(' ')[-1]
-			firstName = ''
-			for name in username.split(' ')[:-1]:
-				firstName += f' {name}'
-			user.first_name = firstName
-			user.is_active = False
-			user.save()
-			student = form2.save(commit=False)
-			student.user = user
-			student.save()
-			
-			emailData = getDataFromTheJson()
-
-			current_site = get_current_site(request)
-			mail_subject = 'Activate your account.'
-			context = {
-						'user': user,
-						'domain': current_site.domain,
-						'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-						'token': account_activation_token.make_token(user),
-					}
-			message = render_to_string('adventskalender/activateEmail.html', context)
-			to_email = userMail
-			send_mail(mail_subject, message, emailData["fromMailAddr"], [to_email])
-
-
-			#student.user = user
-			#student.save()
-
-			login(request, user)
-			return redirect("/advent/")
-		print(form.errors, form2.errors)
-		msg = "Unsuccessful registration. Invalid information."
-		typemsg = "error"
-	form = NewUserForm()
-	form2 = NewStudentForm
-	return render(request, "adventskalender/regPage.html", {"register_form":form, "registerStudent_form":form2, "message":msg, "type": typemsg})
-
 
 def activate(request, uidb64, token):
     try:
@@ -128,3 +77,55 @@ def logout_request(request):
 @login_required
 def account(request):
 	return render(request,"adventskalender/accountPage.html")
+
+
+'''
+def register_request(request):
+	msg = ""
+	typemsg = ""
+	if request.method == "POST":
+		form = NewUserForm(request.POST)
+		form2 = NewStudentForm(request.POST)
+		if form.is_valid() & form2.is_valid():
+			print("form's Valid sheeeeeeeeesh")
+			userMail = form.cleaned_data.get('email')
+			username = userMail.replace('.',' ').split('@')[0]
+			user = form.save(commit=False)
+			user.username = username
+			user.last_name = username.split(' ')[-1]
+			firstName = ''
+			for name in username.split(' ')[:-1]:
+				firstName += f' {name}'
+			user.first_name = firstName
+			user.is_active = False
+
+			student = form2.save(commit=False)
+			student.user = user
+			student.studentClass = student.studentClass.lower()
+			
+			emailData = getDataFromTheJson()
+
+			current_site = get_current_site(request)
+			mail_subject = 'Activate your account.'
+			context = {
+						'user': user,
+						'domain': current_site.domain,
+						'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+						'token': account_activation_token.make_token(user),
+					}
+			message = render_to_string('adventskalender/activateEmail.html', context)
+			to_email = userMail
+			send_mail(mail_subject, message, emailData["fromMailAddr"], [to_email])
+
+			user.save()
+			student.save()
+
+			login(request, user)
+			return redirect("/advent/")
+		print(form.errors, form2.errors)
+		msg = "Unsuccessful registration. Invalid information."
+		typemsg = "error"
+	form = NewUserForm()
+	form2 = NewStudentForm
+	return render(request, "adventskalender/regPage.html", {"register_form":form, "registerStudent_form":form2, "message":msg, "type": typemsg})
+'''

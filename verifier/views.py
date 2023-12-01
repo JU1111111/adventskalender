@@ -11,6 +11,8 @@ from adminDash.funtions.emailTesters import getDataFromTheJson
 from.forms import NewStudentForm, NewUserForm
 from .tokens import account_activation_token
 from .decorators import user_not_authenticated
+from django.core.exceptions import ValidationError
+
 
 #@user_not_authenticated
 def register(request):
@@ -22,7 +24,7 @@ def register(request):
 		form = NewUserForm(request.POST)#Form for email, PW
 		form2 = NewStudentForm(request.POST)#Form for class / year
 		
-		if form.is_valid():
+		if form.is_valid() and form2.is_valid():
 			userMail = form.cleaned_data.get('email')
 			username = userMail.replace('.',' ').split('@')[0]
 			user = form.save(commit=False)
@@ -35,13 +37,15 @@ def register(request):
 			user.first_name = firstName
 
 			user.is_active = False #active to false for verification
-			user.save()
 			student = form2.save(commit=False)
 			student.user = user
+			student.studentClass = student.studentClass.lower()
+			activateEmail(request, user, form.cleaned_data.get('email'))
+
+			user.save()
 			student.save() #save student for class and year
 
 
-			activateEmail(request, user, form.cleaned_data.get('email'))
 			return redirect('login')
 
 		else:

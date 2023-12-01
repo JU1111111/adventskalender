@@ -1,0 +1,84 @@
+{% extends 'vidPlatform/header.html' %} 
+
+
+{% block content %}
+{% include 'vidPlatform/includes/navbar.html' %}
+
+
+<div class="container text-center">
+	<div class="row m-2">
+	  <div class="col">
+		<h2>
+			Gewinner Klassen 5. bis 8.
+		</h2>
+	  </div>
+	  <div class="col">
+		<h2>
+			Gewinner Klassen 9. bis 13.
+		</h2>
+	  </div>
+	</div>
+
+	<div class="row">
+		<div class="col">
+			<div class="col-xs-6">
+				<table class="table">
+					<thead>
+					<tr>
+						<th scope="col">Platz</th>
+						<th scope="col">Name</th>
+						<th scope="col">Richtig gewählt</th>
+					</tr>
+					</thead>
+				
+					<tbody>
+						{% for entry in leaders5To8 %}
+						<tr>
+							<th scope="row">{{forloop.counter}}.</th>
+							<td class="col-sm-3"> {{entry.user.first_name}} {{entry.user.last_name|make_list|first }}. </td>
+							<td class="col-sm-9">{{entry.correctVotesNumber}}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div class="col">
+
+			<div class="col-xs-6">
+				<table class="table">
+					<thead>
+					<tr>
+						<th scope="col">Platz</th>
+						<th scope="col">Name</th>
+						<th scope="col">Klasse</th>
+						<th scope="col">Richtig gewählt</th>
+					</tr>
+					</thead>
+				
+					<tbody>
+						{% for winner in leaders9To13 %}
+						<tr>
+							<th scope="row">{{forloop.counter}}.</th>
+							<td class="col-sm-3"> {{ winner.displayName }}</td>
+							<td class="col-sm-3"> {{ winner.klasse }}</td>
+							<td class="col-sm-9"> {{ winner.rightVotes }}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+  </div>
+
+
+				
+
+
+
+	
+
+
+	
+{% endblock %} 
