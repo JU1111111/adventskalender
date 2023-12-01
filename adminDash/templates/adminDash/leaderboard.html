@@ -52,16 +52,18 @@
 					<tr>
 						<th scope="col">Platz</th>
 						<th scope="col">Name</th>
+						<th scope="col">Klasse</th>
 						<th scope="col">Richtig gewählt</th>
 					</tr>
 					</thead>
 				
 					<tbody>
-						{% for entry in leaders9To13 %}
+						{% for winner in leaders9To13 %}
 						<tr>
 							<th scope="row">{{forloop.counter}}.</th>
-							<td class="col-sm-3"> {{entry.user.first_name}} {{entry.user.last_name|make_list|first }}. </td>
-							<td class="col-sm-9">{{entry.correctVotesNumber}}</td>
+							<td class="col-sm-3"> {{ winner.displayName }}</td>
+							<td class="col-sm-3"> {{ winner.klasse }}</td>
+							<td class="col-sm-9"> {{ winner.rightVotes }}</td>
 						</tr>
 						{% endfor %}
 					</tbody>

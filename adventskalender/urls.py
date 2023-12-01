@@ -16,21 +16,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include 
-from adventskalender import views
+from adventskalender import views 
+from .views import accountViews, infoViews
 
 
 
 urlpatterns = [
+    path('', include("vidPlatform.urls"), name="redirect"),
     path('admin/', admin.site.urls),
 	path('dashboard/', include("adminDash.urls")),
     path('advent/', include("vidPlatform.urls"), name='home'),
 	path('register/', include("verifier.urls"), name="register_request"),
-	path('login/', views.login_request, name="login"),
-    path('', include("vidPlatform.urls"), name="redirect"),
-	path('account/', views.account, name="account"),
-	path('logout/', views.logout_request, name="logout"),
-	path("info/", views.infoView, name="info"),
+	path('login/', accountViews.login_request, name="login"),
+	path('account/', accountViews.account, name="account"),
+	path('logout/', accountViews.logout_request, name="logout"),
+	path("info/", infoViews.infoView, name="info"),
     path("secure/", include("secure.urls"), name="secure"),
-    path("datenschutz/", include("datenschutz.urls"), name="datenschutz"),
-    path("impressum/", include("impressum.urls"), name="impressum"),
+	path('impressum', infoViews.impressumView, name="impressum"),
+	path('datenschutz', infoViews.privacyNoticeView, name="datenschutz"),
 ]

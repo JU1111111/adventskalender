@@ -8,7 +8,7 @@ from .views import admin_check
 @user_passes_test(admin_check)
 def leaderboard(request):
 	#leaders = dbMod.getCurrentWinners(refresh=True)
-	leaders = dbMod.getCurrentWinners([23,13])
+	#leaders = dbMod.getCurrentWinners([23,13])
 
 	leaders5To8 = dbMod.getCurrentWinners(range(5,9),refresh=True)[:10]
 	leaders9To13 = dbMod.getCurrentWinners(range(9,14))[:10]

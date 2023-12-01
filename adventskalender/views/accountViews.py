@@ -1,5 +1,5 @@
 from django.shortcuts import  render, redirect
-from .forms import NewUserForm, NewStudentForm
+from adventskalender.forms import NewUserForm, NewStudentForm
 from django.contrib.auth import login
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
@@ -10,7 +10,7 @@ from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.core.mail import send_mail
-from .tokens import account_activation_token
+from adventskalender.tokens import account_activation_token
 from django.contrib.sites.shortcuts import get_current_site
 from adminDash.funtions.emailTesters import getDataFromTheJson
 from django.http import HttpResponse
@@ -128,12 +128,3 @@ def logout_request(request):
 @login_required
 def account(request):
 	return render(request,"adventskalender/accountPage.html")
-
-
-
-@login_required
-def infoView(request):
-	return render(request, "adventskalender/infoPage.html")
-
-
-

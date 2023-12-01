@@ -108,4 +108,24 @@ def getCurrentWinners(years:[], refresh=False):
 	
 
 	winnerz = CorrectUserVotes.objects.filter(user__student__studentYear__in=years).order_by("-correctVotesNumber")[:10]
-	return winnerz
+
+	winnerzObjects = []
+	for winner in winnerz:
+		winnerzStudent = Student.objects.get(user=winner.user)
+		winObj = Winner(winner.correctVotesNumber, winner.user, winnerzStudent)
+		winnerzObjects.append(winObj)
+
+	return winnerzObjects
+
+class Winner():
+	def __init__(self, numOfRightVotes, user, student):
+		if user.first_name != '' and user.last_name != '': 
+			firstNamesSplit = user.first_name.split(' ')
+			self.displayName = firstNamesSplit[1] + " " + user.last_name[0] + ". "
+		else:
+			self.displayName = "User Number " + str(user.id)
+
+		year = str(student.studentYear)
+		self.klasse = year + student.studentClass
+		self.rightVotes = numOfRightVotes
+
