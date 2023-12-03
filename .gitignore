@@ -1,5 +1,7 @@
 /.venv
 db.sqlite3
 adminDash/emailData.json
+adminDash/emailData2.json
+adminDash/credentials.json
 token.json
 /.vscode
