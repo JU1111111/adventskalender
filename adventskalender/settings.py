@@ -37,6 +37,8 @@ CSRF_TRUSTED_ORIGINS = ['https://13g-advent.de','https://www.13g-advent.de']
 # Application definition
 
 INSTALLED_APPS = [
+	'verifier.apps.VerifierConfig',
+	'adventskalender.apps.AdventskalenderConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,9 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'vidPlatform.apps.VidplatformConfig',
-	'adventskalender.apps.AdventskalenderConfig',
 	'adminDash.apps.AdmindashConfig',
-	'verifier.apps.VerifierConfig',
 	"crispy_forms",
     "crispy_bootstrap5",
     "secure",
