@@ -141,6 +141,7 @@ emailData = emailTesters.getDataFromTheJson()
 
 #EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' 
 
+DEFAULT_FROM_EMAIL = emailData['fromMailAddr']
 EMAIL_HOST = emailData['EMAIL_HOST']
 EMAIL_PORT  = emailData['EMAIL_PORT']
 EMAIL_HOST_USER = emailData['EMAIL_HOST_USER']
