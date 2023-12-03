@@ -28,23 +28,33 @@
         <div class="row">
             {% load entryValidator %}
             {% for dateentry in latest_list %}
-            <div class="card col-md-3 my-1">
+            <div class="card col-md-4 my-1">
                 <div class="card-body row">
                     {%validateIfActive dateentry as IsValid%}
                     {%validateIfOver dateentry as IsOver%}
                     {%validateIfInTheFuture dateentry as IsFuture%}
-                    <h5 class="col-md-7 mt-2">Tag {{ forloop.counter }}</h5>
+                    <h5 class="col-md-8 mt-2">Tag {{ forloop.counter }}</h5>
                     {%if IsValid%}
-                        <a type="button" class="btn btn-success col-md-5" href="{% url 'detail' dateentry.id%}"><i class="fas fa-lock-open fa-lg"></i></a>
+                        <a type="button" class="btn btn-success col-md-4" href="{% url 'detail' dateentry.id%}"><i class="fas fa-lock-open fa-lg"></i></a>
                     {%elif IsOver%}
-                        <a type="button" class="btn btn-primary col-md-5" href="{% url 'detail' dateentry.id%}"><i class="fas fa-hourglass-end"></i></i></a>
+                        <a type="button" class="btn btn-primary col-md-4" href="{% url 'detail' dateentry.id%}"><i class="fas fa-hourglass-end"></i></i></a>
                     {%elif IsFuture%}
-                        <a type="button" class="btn btn-secondary disabled col-md-5" href="{% url 'detail' dateentry.id%}" ><i class="fas fa-lock fa-lg"></i></a>
+                        <a type="button" class="btn btn-secondary disabled col-md-4" href="{% url 'detail' dateentry.id%}" ><i class="fas fa-lock fa-lg"></i></a>
                     {%endif%}
                 </div>
             </div>
             {% endfor %}
         </div>
       </div>
+      
+      <button id="test12">Test</button>
+      <script>
+        document.getElementById("test12").addEventListener('click', function() {
+            toastr.success("Success");
+            toastr.error("Success");
+    });
+      </script>
+
+
       {% include 'vidPlatform/includes/footer.html' %}
-{% endblock %} 
+{% endblock %}
