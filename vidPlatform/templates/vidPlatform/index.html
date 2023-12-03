@@ -33,13 +33,13 @@
                     {%validateIfActive dateentry as IsValid%}
                     {%validateIfOver dateentry as IsOver%}
                     {%validateIfInTheFuture dateentry as IsFuture%}
-                    <h5 class="col-md-7 mt-2">Tag Nr. {{ forloop.counter }}</h5>
+                    <h5 class="col-md-7 mt-2">Tag {{ forloop.counter }}</h5>
                     {%if IsValid%}
-                        <a type="button" class="btn btn-success col-md-5" href="{% url 'detail' dateentry.id%}">GO</a>
+                        <a type="button" class="btn btn-success col-md-5" href="{% url 'detail' dateentry.id%}"><i class="fas fa-lock-open fa-lg"></i></a>
                     {%elif IsOver%}
-                        <a type="button" class="btn btn-primary col-md-5" href="{% url 'detail' dateentry.id%}">GO</a>
+                        <a type="button" class="btn btn-primary col-md-5" href="{% url 'detail' dateentry.id%}"><i class="fas fa-hourglass-end"></i></i></a>
                     {%elif IsFuture%}
-                        <a type="button" class="btn btn-secondary disabled col-md-5" href="{% url 'detail' dateentry.id%}" >GO</a>
+                        <a type="button" class="btn btn-secondary disabled col-md-5" href="{% url 'detail' dateentry.id%}" ><i class="fas fa-lock fa-lg"></i></a>
                     {%endif%}
                 </div>
             </div>

@@ -31,9 +31,9 @@ def activate(request, uidb64, token):
         user.save()
         login(request, user)
         # return redirect('home')
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+        return HttpResponse('Vielen Dank für die E-Mail-Bestätigung. Das Konto ist nun freigeschaltet.')
     else:
-        return HttpResponse('Activation link is invalid!')
+        return HttpResponse('Der Aktivierungscode ist nicht gültig!')
 	
 
 def login_request(request):
@@ -54,13 +54,13 @@ def login_request(request):
 			if user is not None:
 				login(request, user)
 				return redirect("/advent/")
-			message = "Invalid username or password."
+			message = "Falscher Nutzername oder Passwort"
 			typemessage = "error"
 		elif form.error_messages['inactive']:
-			message = "Bitte aktiviere deinen Account."
+			message = "Bitte aktiviere dein Konto"
 			typemessage = "error"
 		else:
-			message = "Invalid username or password."
+			message = "Falscher Nutzername oder Passwort"
 			typemessage = "error"
 	form = AuthenticationForm()
 	form.base_fields['username'].label = 'Email'
@@ -71,7 +71,7 @@ def login_request(request):
 
 def logout_request(request):
 	logout(request)
-	messages.info(request, "You have successfully logged out.") 
+	messages.info(request, "Du hast dich erfolgreich abgemeldet") 
 	return redirect("/advent")
 
 
@@ -84,7 +84,7 @@ def account(request):
 def delAccount(request, confirm_commit):
 	if confirm_commit == "True":
 		request.user.delete()
-		messages.add_message(request,messages.SUCCESS, "Dein Account wurde erfolgreich gelöscht")
+		messages.add_message(request,messages.SUCCESS, "Dein Konto wurde erfolgreich gelöscht")
 		return redirect('/')
 	elif confirm_commit == "False":
 		return render(request,"adventskalender/confirmDelete.html")

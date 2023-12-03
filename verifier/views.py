@@ -66,7 +66,7 @@ def register(request):
 
 
 def activateEmail(request, user, to_email):
-	mail_subject = 'Activate your user account.'
+	mail_subject = 'Aktiviere dein Konto'
 	message = render_to_string('verifier/activateEmailTemplate.html', {
 		'user': user.username,
 		'domain': get_current_site(request).domain,

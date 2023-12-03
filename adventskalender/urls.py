@@ -34,6 +34,5 @@ urlpatterns = [
 	path('logout/', accountViews.logout_request, name="logout"),
 	path('leaderboard', infoViews.leaderBoardView, name='leaderboard'),
 	path("info/", infoViews.infoView, name="info"),
-	path('impressum', infoViews.impressumView, name="impressum"),
 	path('datenschutz', infoViews.privacyNoticeView, name="datenschutz"),
 ]
