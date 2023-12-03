@@ -15,7 +15,7 @@ urlpatterns = [
     ),
 	path(
         "/accounts/reset/",
-        auth_views.PasswordResetConfirmView.as_view(template_name="verifier/templates/registration/password_reset_done.html"),
+        auth_views.PasswordResetConfirmView.as_view(template_name="verifier/templates/registration/password_reset_confirm.html"),
     ),
 	path('accounts/', include("django.contrib.auth.urls"), name='register'),
     path('activate/<uidb64>/<token>', views.activate, name='activate'),
