@@ -120,8 +120,11 @@ def refreshWinnersUpToYesterday():
 				previousnumberOfVotes = rightVotes.correctVotesNumber
 
 		elif not rightVotes.isStudent:
-			rightVotes.currentPlacement = place
-
+			if rightVotes.correctVotesNumber == previousnumberOfVotes:
+				rightVotes.currentPlacement = place 
+			else:
+				rightVotes.currentPlacement = place + 1
+				
 		rightVotes.lastRefresh = todaysDay
 		rightVotes.save()
 	
@@ -139,7 +142,11 @@ def refreshWinnersUpToYesterday():
 				previousnumberOfVotes = rightVotes.correctVotesNumber
 
 		elif not rightVotes.isStudent:
-			rightVotes.currentPlacement = place
+			if rightVotes.correctVotesNumber == previousnumberOfVotes:
+				rightVotes.currentPlacement = place 
+			else:
+				rightVotes.currentPlacement = place + 1
+
 
 		rightVotes.lastRefresh = todaysDay
 		rightVotes.save()
