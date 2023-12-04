@@ -25,7 +25,7 @@ def register(request):
 		if form.is_valid() and form2.is_valid():
 			userMail = form.cleaned_data.get('email')
 			username = userMail.replace('.',' ').split('@')[0]
-			if userMail.replace('.',' ').split('@')[-1].lower() is not "sghm.eu":
+			if userMail.split('@')[-1].lower() is not "sghm.eu":
 				messages.error(request, 'Nur Emails mit "sghm.eu" werden aktzeptiert')
 				return redirect('register')
 			if(form.exists()):
