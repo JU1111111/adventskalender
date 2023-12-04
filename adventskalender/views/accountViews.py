@@ -39,7 +39,10 @@ def login_request(request):
 			messages.error(request, "Die Email oder das Passwort ist falsch")
 		elif form.is_valid():
 				login(request, user)
-				return redirect("/advent/")
+				if user.last_login == None:
+					return redirect("/info/")
+				else:
+					return redirect("/advent/")
 		else:
 			messages.error(request, "Bitte aktiviere dein Konto")
 	form = LoginForm()
