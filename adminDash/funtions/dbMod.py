@@ -97,7 +97,7 @@ def refreshWinnersUpToYesterday():
 		
 		if user.first_name != '' and user.last_name != '': 
 			firstNamesSplit = user.first_name.split(' ')
-			firstNamesSplit[1][0].upper()
+			firstNamesSplit[1][0] = firstNamesSplit[1][0].upper()
 			correctVotesDBEntry.displayName = firstNamesSplit[1] + " " + user.last_name[0].upper() + ". "
 			correctVotesDBEntry.isStudent = True
 		else:
