@@ -8,9 +8,10 @@ from adminDash.funtions import dbMod
 def infoView(request):
 	return render(request, "adventskalender/infoPage.html")
 
-@login_required
 def privacyNoticeView(request):
-	return render(request, "adventskalender/datenschutz.html")
+	if request.user.is_authenticated:
+		return render(request, "adventskalender/datenschutz.html",{"logged":True})
+	return render(request, "adventskalender/datenschutz.html",{"logged":False})
 
 @login_required
 def leaderBoardView(request):
