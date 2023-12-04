@@ -43,10 +43,10 @@ def register(request):
 			student = form2.save(commit=False)
 			student.user = user
 			student.studentClass = student.studentClass.lower()
-			activateEmail(request, user, form.cleaned_data.get('email'))
-
 			user.save()
 			student.save() #save student for class and year
+			activateEmail(request, user, form.cleaned_data.get('email'))
+
 
 
 			return redirect('login')
@@ -87,23 +87,23 @@ def activateEmail(request, user, to_email):
 
 
 def activate(request, uidb64, token):
-    User = get_user_model()
-    try:
-        uid = force_str(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
+	User = get_user_model()
+	try:
+		uid = force_str(urlsafe_base64_decode(uidb64))
+		user = User.objects.get(pk=uid)
+	except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+		user = None
 
-    if user is not None and account_activation_token.check_token(user, token):
-        user.is_active = True
-        user.save()
+	if user is not None and account_activation_token.check_token(user, token):
+		user.is_active = True
+		user.save()
 
-        messages.success(request, 'Vielen Dank für die E-Mail-Bestätigung. Das Konto ist nun freigeschaltet.')
-        return redirect('login')
-    else:
-        messages.error(request, 'Der Aktivierungscode ist ungültig!')
-    
-    return redirect('login')
+		messages.success(request, 'Vielen Dank für die E-Mail-Bestätigung. Das Konto ist nun freigeschaltet.')
+		return redirect('login')
+	else:
+		messages.error(request, 'Der Aktivierungscode ist ungültig!')
+	
+	return redirect('login')
 
 
 def notActive(request):
