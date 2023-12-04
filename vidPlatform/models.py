@@ -76,10 +76,10 @@ class Vote(models.Model):
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    studentYear = models.IntegerField(
+    studentYear = models.IntegerField( "Jahrgang",
         validators=[
             MaxValueValidator(13),
             MinValueValidator(5)
         ]
      )
-    studentClass = models.CharField(max_length=1)
+    studentClass = models.CharField("Klasse" ,max_length=1)
