@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required, user_passes_test
 from adminDash.funtions import dbMod
 from .views import admin_check

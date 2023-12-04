@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from vidPlatform.models import DateEntry, Vote
 from django.contrib.auth import get_user_model
 from adminDash.funtions import dbMod
-from adminDash.models import CorrectUserVotes
 from .views import admin_check
 
 

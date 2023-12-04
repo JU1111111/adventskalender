@@ -45,8 +45,8 @@
 			<!-- Submit button -->
 			<form action="/advent/{{entry.id}}/" method="POST" id="test">
 				{% csrf_token %}
-				{{ form |crispy}}
-				<button class="btn btn-primary mt-3">Senden</button>
+        {{ form |crispy}}
+				<button class="btn btn-primary mt-3" {%if voted%}disabled{%endif%}>Senden</button>
 				</form>
           </div>
           

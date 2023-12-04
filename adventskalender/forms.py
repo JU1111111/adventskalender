@@ -4,7 +4,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from vidPlatform.models import Student
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import authenticate
 
 
 # Create your forms here.

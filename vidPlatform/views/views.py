@@ -1,7 +1,7 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from ..models import DateEntry, Choice, Vote
+from django.shortcuts import get_object_or_404, redirect
+from ..models import DateEntry
 
-from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.http import HttpResponse, Http404
 from django.template import loader
 import datetime
 from django.contrib.auth.decorators import login_required

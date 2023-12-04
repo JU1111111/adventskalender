@@ -3,7 +3,7 @@ from django.shortcuts import render
 from ..models import DateEntry, Choice, Vote
 from vidPlatform.forms import VoteForm
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect
 from django.contrib import messages
 
 
@@ -22,8 +22,6 @@ def isActive(request, dateentry_id):
 		if form.is_valid():
 			vote = form.save(commit=False)
 			vote.author = request.user
-			if alreadyVoted:
-				alreadyVoted.delete()
 			vote.save()
 			messages.success(request, "Erfolgreich gewählt")
 
@@ -36,7 +34,8 @@ def isActive(request, dateentry_id):
 		choicesField.queryset = choices
 
 		if alreadyVoted:
+			choicesField.disabled = True
 			choicesField.initial = alreadyVoted[0].choice
 
 		print("yeet")
-	return render(request, "vidPlatform/detailPages/detailActive.html", {"form": form, "entry":dateEntry})
+	return render(request, "vidPlatform/detailPages/detailActive.html", {"form": form, "entry":dateEntry, "voted": alreadyVoted})
