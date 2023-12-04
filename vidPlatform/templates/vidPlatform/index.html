@@ -46,15 +46,7 @@
             {% endfor %}
         </div>
       </div>
-      
-      <button id="test12">Test</button>
-      <script>
-        document.getElementById("test12").addEventListener('click', function() {
-            toastr.success("Success");
-            toastr.error("Success");
-    });
-      </script>
-
-
-      {% include 'vidPlatform/includes/footer.html' %}
+      <footer class=" bg-body-tertiary text-center text-lg-start" >
+        {% include 'vidPlatform/includes/footer.html' %}
+      </footer>
 {% endblock %}

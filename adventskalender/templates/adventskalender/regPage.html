@@ -2,9 +2,15 @@
 
 {% block content %} 
 
-
-
 {% load crispy_forms_tags %}         
+
+{% if messages %}
+		{% for message in messages %}
+		<script type=text/javascript>
+			toastr.{{ message.tags }}('{{ message }}');
+		</script>
+		{% endfor %}
+{% endif %}
 
 <!--Register--> 
 <section class="vh-100" style="background-color: #508bfc">

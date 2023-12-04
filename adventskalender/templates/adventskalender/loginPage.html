@@ -4,6 +4,13 @@
 
 {% load crispy_forms_tags %}
 
+{% if messages %}
+		{% for message in messages %}
+		<script type=text/javascript>
+			toastr.{{ message.tags }}('{{ message }}');
+		</script>
+		{% endfor %}
+{% endif %}
 
 <!--Login--> 
   <section class="vh-100" style="background-color: #508bfc">
@@ -16,9 +23,6 @@
               <form method="POST">
                 {% csrf_token %}
                 {{ login_form|crispy }}
-                {% if type == 'error' %}
-                  <p class="text-danger">{{ message }}</p>
-                {%endif%}
               <button
                 class="btn btn-primary btn-lg btn-block mb-3"
                 type="submit"

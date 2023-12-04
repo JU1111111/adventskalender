@@ -1,23 +1,15 @@
 from django.shortcuts import  render, redirect
-from adventskalender.forms import NewUserForm, NewStudentForm
+from adventskalender.forms import LoginForm
 from django.contrib.auth import login
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.template.loader import render_to_string
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes
-from django.core.mail import send_mail
+from django.utils.http import urlsafe_base64_decode
 from adventskalender.tokens import account_activation_token
-from django.contrib.sites.shortcuts import get_current_site
-from adminDash.funtions.emailTesters import getDataFromTheJson
 from django.http import HttpResponse
-from django.utils.encoding import force_bytes, force_str
+from django.utils.encoding import force_str
 from django.contrib import messages
-
-
 
 
 def activate(request, uidb64, token):
@@ -33,7 +25,7 @@ def activate(request, uidb64, token):
         # return redirect('home')
         return HttpResponse('Vielen Dank für die E-Mail-Bestätigung. Das Konto ist nun freigeschaltet.')
     else:
-        return HttpResponse('Der Aktivierungscode ist nicht gültig!')
+        return HttpResponse('Der Aktivierungscode ist ungültig!')
 	
 
 def login_request(request):
@@ -41,31 +33,18 @@ def login_request(request):
 		return redirect('/secure')
 	if request.user.is_authenticated:
 		return redirect('/advent')
-	message = ""
-	typemessage = ""
 	if request.method == "POST":
-		print(request.POST)
-		form = AuthenticationForm(request, data=request.POST)
-		form.base_fields['username'].label = 'Email'
-		if form.is_valid():
-			username = form.cleaned_data.get('username')
-			password = form.cleaned_data.get('password')
-			user = authenticate(username=username, password=password)
-			if user is not None:
+		form = LoginForm(request, data=request.POST)
+		user = authenticate(username=form.data.get("username"), password=form.data.get("password"))
+		if user is None:
+			messages.error(request, "Die Email oder das Passwort ist falsch")
+		elif form.is_valid():
 				login(request, user)
 				return redirect("/advent/")
-			message = "Falscher Nutzername oder Passwort"
-			typemessage = "error"
-		elif form.error_messages['inactive']:
-			message = "Bitte aktiviere dein Konto"
-			typemessage = "error"
 		else:
-			message = "Falscher Nutzername oder Passwort"
-			typemessage = "error"
-	form = AuthenticationForm()
-	form.base_fields['username'].label = 'Email'
-	print(request.method, message, typemessage)
-	return render(request=request, template_name="adventskalender/loginPage.html", context={"login_form":form, "message":message, "type":typemessage})
+			messages.error(request, "Bitte aktiviere dein Konto")
+	form = LoginForm()
+	return render(request=request, template_name="adventskalender/loginPage.html", context={"login_form":form})
 
 
 
@@ -88,58 +67,3 @@ def delAccount(request, confirm_commit):
 		return redirect('/')
 	elif confirm_commit == "False":
 		return render(request,"adventskalender/confirmDelete.html")
-
-
-		
-
-
-'''
-def register_request(request):
-	msg = ""
-	typemsg = ""
-	if request.method == "POST":
-		form = NewUserForm(request.POST)
-		form2 = NewStudentForm(request.POST)
-		if form.is_valid() & form2.is_valid():
-			print("form's Valid sheeeeeeeeesh")
-			userMail = form.cleaned_data.get('email')
-			username = userMail.replace('.',' ').split('@')[0]
-			user = form.save(commit=False)
-			user.username = username
-			user.last_name = username.split(' ')[-1]
-			firstName = ''
-			for name in username.split(' ')[:-1]:
-				firstName += f' {name}'
-			user.first_name = firstName
-			user.is_active = False
-
-			student = form2.save(commit=False)
-			student.user = user
-			student.studentClass = student.studentClass.lower()
-			
-			emailData = getDataFromTheJson()
-
-			current_site = get_current_site(request)
-			mail_subject = 'Activate your account.'
-			context = {
-						'user': user,
-						'domain': current_site.domain,
-						'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-						'token': account_activation_token.make_token(user),
-					}
-			message = render_to_string('adventskalender/activateEmail.html', context)
-			to_email = userMail
-			send_mail(mail_subject, message, emailData["fromMailAddr"], [to_email])
-
-			user.save()
-			student.save()
-
-			login(request, user)
-			return redirect("/advent/")
-		print(form.errors, form2.errors)
-		msg = "Unsuccessful registration. Invalid information."
-		typemsg = "error"
-	form = NewUserForm()
-	form2 = NewStudentForm
-	return render(request, "adventskalender/regPage.html", {"register_form":form, "registerStudent_form":form2, "message":msg, "type": typemsg})
-'''

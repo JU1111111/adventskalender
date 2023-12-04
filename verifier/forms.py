@@ -14,6 +14,14 @@ class NewUserForm(UserCreationForm):
 		model = User
 		fields = ("email", "password1", "password2")
 
+	def exists(self):
+		user = super(NewUserForm, self).save(commit=False)
+		email = self.cleaned_data['email']
+		if User.objects.exclude(pk=self.instance.pk).filter(email=email).exists():
+			return True
+		user.email = email
+		return False
+
 	def save(self, commit=True):
 		user = super(NewUserForm, self).save(commit=False)
 		user.email = self.cleaned_data['email']

@@ -10,8 +10,6 @@ from adminDash.funtions.emailTesters import getDataFromTheJson
 
 from.forms import NewStudentForm, NewUserForm
 from .tokens import account_activation_token
-from .decorators import user_not_authenticated
-from django.core.exceptions import ValidationError
 
 
 #@user_not_authenticated
@@ -27,6 +25,12 @@ def register(request):
 		if form.is_valid() and form2.is_valid():
 			userMail = form.cleaned_data.get('email')
 			username = userMail.replace('.',' ').split('@')[0]
+			if userMail.replace('.',' ').split('@')[-1].lower() is not "sghm.eu":
+				messages.error(request, 'Nur Emails mit "sghm.eu" werden aktzeptiert')
+				return redirect('register')
+			if(form.exists()):
+				messages.error(request, "Der Nutzer existiert schon")
+				return redirect('register')
 			user = form.save(commit=False)
 			#setting username and first/last name
 			user.username = username
@@ -35,7 +39,6 @@ def register(request):
 			for name in username.split(' ')[:-1]:
 				firstName += f' {name}'
 			user.first_name = firstName
-
 			user.is_active = False #active to false for verification
 			student = form2.save(commit=False)
 			student.user = user
@@ -77,10 +80,9 @@ def activateEmail(request, user, to_email):
 	fromMail = getDataFromTheJson()['fromMailAddr']
 	email = EmailMessage(mail_subject, message, to=[to_email], from_email=fromMail)
 	if email.send():
-		messages.success(request, f'Dear <b>{user}</b>, please go to you email <b>{to_email}</b> inbox and click on \
-			received activation link to confirm and complete the registration. <b>Note:</b> Check your spam folder.')
+		messages.success(request, f'Öffne die Mailbox "{to_email}" und folge den Anweisungen in der E-Mail. Hinweis: Überprüfe den Spam-Ordner.')
 	else:
-		messages.error(request, f'Problem sending confirmation email to {to_email}, check if you typed it correctly.')
+		messages.error(request, f'Problem beim Senden der Bestätigungs-E-Mail an {to_email}. Überprüfe, ob es sich um die richtige Email Adresse handelt.')
 
 
 
@@ -96,10 +98,10 @@ def activate(request, uidb64, token):
         user.is_active = True
         user.save()
 
-        messages.success(request, 'Thank you for your email confirmation. Now you can login your account.')
+        messages.success(request, 'Vielen Dank für die E-Mail-Bestätigung. Das Konto ist nun freigeschaltet.')
         return redirect('login')
     else:
-        messages.error(request, 'Activation link is invalid! ')
+        messages.error(request, 'Der Aktivierungscode ist ungültig!')
     
     return redirect('login')
 

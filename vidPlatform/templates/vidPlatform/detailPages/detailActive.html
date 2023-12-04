@@ -6,28 +6,13 @@
 {% load crispy_forms_tags %}
 <title>Tag {{entry.id}}</title>
 
-<svg xmlns="http://www.w3.org/2000/svg" class="d-none">
-	<symbol id="check-circle-fill" viewBox="0 0 16 16">
-	  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-	</symbol>
-</svg>
-<div>
-	{% if messages %}
-		<ul class="messages">
+{% if messages %}
 		{% for message in messages %}
-			<div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'debug' %}light{% else %}{{message.tags}}{% endif %} d-flex align-items-center me-4 mt-2" role="alert">
-				{% if message.tags == 'success' %}
-					<i class="bi bi-check-circle" style=" color: limegreen;"> </i> &nbsp
-				{%endif%}
-				<div>
-					{{ message | safe}}
-				</div>
-
-			</div>
+		<script type=text/javascript>
+			toastr.{{ message.tags }}('{{ message }}');
+		</script>
 		{% endfor %}
-		</ul>
-	{% endif %}
-</div>
+{% endif %}
 
 <div
       class="container mt-5 rounded p-3"
@@ -58,7 +43,7 @@
           </div>
           <div class="mt-3">
 			<!-- Submit button -->
-			<form action="/advent/{{entry.id}}/" method="POST">
+			<form action="/advent/{{entry.id}}/" method="POST" id="test">
 				{% csrf_token %}
 				{{ form |crispy}}
 				<button class="btn btn-primary mt-3">Senden</button>
@@ -68,5 +53,7 @@
         </div>
 	</div>
     </div>
-	{% include 'vidPlatform/includes/footer.html' %}
+	<footer class=" bg-body-tertiary text-center text-lg-start" style="margin-top: 245px;">
+		{% include 'vidPlatform/includes/footer.html' %}
+	  </footer>
 {% endblock %} 
