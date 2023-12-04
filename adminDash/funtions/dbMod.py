@@ -95,10 +95,6 @@ def refreshWinnersUpToYesterday():
 	return numOfCorrects
 
 
-
-	
-
-
 def getCurrentWinners(years:[], refresh=False):
 	#numOfCorrect = refreshWinnersUpToYesterday()
 
@@ -117,6 +113,7 @@ def getCurrentWinners(years:[], refresh=False):
 
 	return winnerzObjects
 
+
 class Winner():
 	def __init__(self, numOfRightVotes, user, student):
 		if user.first_name != '' and user.last_name != '': 
@@ -129,3 +126,12 @@ class Winner():
 		self.klasse = year + student.studentClass
 		self.rightVotes = numOfRightVotes
 
+
+def getNumberOfTotalVotes(username):
+	numberOfTotalVotes = Vote.objects.filter(author__username=username, choice__question__end_date__lte=datetime.date.today()).count()
+	return numberOfTotalVotes
+
+
+def getNumberOfCorrectVotes(username):
+	numberOfTotalVotes = Vote.objects.filter(author__username=username, choice__isCorrect=True, choice__question__end_date__lte=datetime.date.today()).count()
+	return numberOfTotalVotes
