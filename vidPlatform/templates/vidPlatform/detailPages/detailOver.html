@@ -52,8 +52,8 @@
 				{%for choice in choices%}
 					<div class="form-check mt-1">
 						<input class="form-check-input" type="radio" name="flexRadioDisabled" id="flexRadioDisabled" {%if choice == votedFor%}checked{%endif%} disabled>
-						<label class="form-check-label" for="flexRadioDisabled">
-							{{choice.choice_text}} {%if choice.isCorrect%} <i class="bi bi-check-circle" style=" color: limegreen;"></i> {%endif%}
+						<label class="form-check-label {%if choice.isCorrect%} text-success {%endif%}" for="flexRadioDisabled">
+							{{choice.choice_text}} {%if choice.isCorrect%} <i class="bi bi-check-circle text-success"></i> {%endif%}
 						</label>
 					</div>
 				{% endfor %}
