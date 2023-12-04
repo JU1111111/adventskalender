@@ -127,7 +127,7 @@ def refreshWinnersUpToYesterday():
 			place += 1
 		elif not rightVotes.isStudent:
 			rightVotes.currentPlacement = place
-			
+
 		rightVotes.lastRefresh = todaysDay
 		rightVotes.save()
 		
@@ -163,8 +163,10 @@ def getCurrentWinners(years:[], forceRefresh=False):
 
 
 def getUserPlacement(username):
-	user = UserModel.objects.get(username=username)
+	user = UserModel.objects.get(username=username) 
 	studentOfUser = Student.objects.get(user=user)
+	if not studentOfUser:
+		return "None"
 	if studentOfUser.studentYear in range(5,9):
 		years = range(5,9)
 	elif studentOfUser.studentYear in range(9,13):
