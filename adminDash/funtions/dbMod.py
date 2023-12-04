@@ -107,11 +107,18 @@ def refreshWinnersUpToYesterday():
 		correctVotesDBEntry.save()
 
 	FiveToEightCorrectVotes = CorrectUserVotes.objects.filter(user__student__studentYear__in=range(5,9)).order_by("-correctVotesNumber")
-	place = 1
+	place = 0
+	previousnumberOfVotes = 0
+
 	for rightVotes in FiveToEightCorrectVotes:
 		if rightVotes.isStudent:
-			rightVotes.currentPlacement = place
-			place += 1
+			if rightVotes.correctVotesNumber == previousnumberOfVotes:
+				rightVotes.currentPlacement = place
+			else:
+				place += 1
+				rightVotes.currentPlacement = place
+				previousnumberOfVotes = rightVotes.correctVotesNumber
+
 		elif not rightVotes.isStudent:
 			rightVotes.currentPlacement = place
 
@@ -120,11 +127,17 @@ def refreshWinnersUpToYesterday():
 	
 
 	NineToThirteenCorrectVotes = CorrectUserVotes.objects.filter(user__student__studentYear__in=range(9,14)).order_by("-correctVotesNumber")
-	place = 1
+	place = 0
+	previousnumberOfVotes = 0
 	for rightVotes in NineToThirteenCorrectVotes:
 		if rightVotes.isStudent:
-			rightVotes.currentPlacement = place
-			place += 1
+			if rightVotes.correctVotesNumber == previousnumberOfVotes:
+				rightVotes.currentPlacement = place
+			else:
+				place += 1
+				rightVotes.currentPlacement = place
+				previousnumberOfVotes = rightVotes.correctVotesNumber
+
 		elif not rightVotes.isStudent:
 			rightVotes.currentPlacement = place
 

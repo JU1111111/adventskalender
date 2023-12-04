@@ -15,7 +15,7 @@ def privacyNoticeView(request):
 
 @login_required
 def leaderBoardView(request):
-	leaders5To8 = dbMod.getCurrentWinners(range(5,9),forceRefresh=True)[:10]
-	leaders9To13 = dbMod.getCurrentWinners(range(9,14),forceRefresh=True)[:10]
+	leaders5To8 = dbMod.getCurrentWinners(range(5,9),forceRefresh=False)[:10]
+	leaders9To13 = dbMod.getCurrentWinners(range(9,14),forceRefresh=False)[:10]
 	context = {"leaders5To8 ":leaders5To8, "leaders9To13":leaders9To13}
 	return render(request, "adventskalender/leaderboard.html", context)
