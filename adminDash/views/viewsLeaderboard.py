@@ -10,7 +10,7 @@ def leaderboard(request):
 	#leaders = dbMod.getCurrentWinners(refresh=True)
 	#leaders = dbMod.getCurrentWinners([23,13])
 
-	leaders5To8 = dbMod.getCurrentWinners(range(5,9),refresh=True)[:10]
+	leaders5To8 = dbMod.getCurrentWinners(range(5,9))[:10]
 	leaders9To13 = dbMod.getCurrentWinners(range(9,14))[:10]
 	context = {"leaders5To8 ":leaders5To8, "leaders9To13":leaders9To13}
 	return render(request, "adminDash/leaderboard.html",context)

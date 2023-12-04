@@ -80,6 +80,7 @@ def getDateEntries():
 
 def refreshWinnersUpToYesterday():
 
+	todaysDay = datetime.date.today()
 	currentCorrects = CorrectUserVotes.objects.all().delete()
 
 	allUsers = UserModel.objects.filter()
@@ -89,38 +90,100 @@ def refreshWinnersUpToYesterday():
 		NumOfRightVotes = Vote.objects.filter(choice__isCorrect=True, author=user, choice__question__end_date__lte=datetime.datetime.today()).count()
 		numOfCorrects[user.get_username()] = NumOfRightVotes
 
-		correctVotesDBEntry = CorrectUserVotes(user=user,correctVotesNumber = NumOfRightVotes)
+		correctVotesDBEntry = CorrectUserVotes(user=user,
+										 correctVotesNumber = NumOfRightVotes, 
+										 currentPlacement=0, 
+										 lastRefresh = datetime.date.today() - datetime.timedelta(days=1))
+		
+		if user.first_name != '' and user.last_name != '': 
+			firstNamesSplit = user.first_name.split(' ')
+			firstNamesSplit[1][0].upper()
+			correctVotesDBEntry.displayName = firstNamesSplit[1] + " " + user.last_name[0].upper() + ". "
+			correctVotesDBEntry.isStudent = True
+		else:
+			correctVotesDBEntry.isStudent = False
+			correctVotesDBEntry.displayName = "User Number " + str(user.id)
+
 		correctVotesDBEntry.save()
 
+	FiveToEightCorrectVotes = CorrectUserVotes.objects.filter(user__student__studentYear__in=range(5,9)).order_by("-correctVotesNumber")
+	place = 1
+	for rightVotes in FiveToEightCorrectVotes:
+		if rightVotes.isStudent:
+			rightVotes.currentPlacement = place
+			place += 1
+		elif not rightVotes.isStudent:
+			rightVotes.currentPlacement = place
+
+		rightVotes.lastRefresh = todaysDay
+		rightVotes.save()
+	
+
+	NineToThirteenCorrectVotes = CorrectUserVotes.objects.filter(user__student__studentYear__in=range(9,14)).order_by("-correctVotesNumber")
+	place = 1
+	for rightVotes in NineToThirteenCorrectVotes:
+		if rightVotes.isStudent:
+			rightVotes.currentPlacement = place
+			place += 1
+		elif not rightVotes.isStudent:
+			rightVotes.currentPlacement = place
+			
+		rightVotes.lastRefresh = todaysDay
+		rightVotes.save()
+		
 	return numOfCorrects
 
 
-def getCurrentWinners(years:[], refresh=False):
-	#numOfCorrect = refreshWinnersUpToYesterday()
+def getCurrentWinners(years:[], forceRefresh=False):
 
-
-	if refresh:
+	if forceRefresh:
 		refreshWinnersUpToYesterday()
 	
-
 	winnerz = CorrectUserVotes.objects.filter(user__student__studentYear__in=years).order_by("-correctVotesNumber")[:10]
 
 	winnerzObjects = []
+	if not winnerz:
+		refreshWinnersUpToYesterday()
+		winnerz = CorrectUserVotes.objects.filter(user__student__studentYear__in=years).order_by("-correctVotesNumber")[:10]
+		if not winnerz:
+			return winnerzObjects
+		
+	if winnerz[0].lastRefresh != datetime.date.today():
+		refreshWinnersUpToYesterday()
+
+	place = 1
 	for winner in winnerz:
 		winnerzStudent = Student.objects.get(user=winner.user)
-		winObj = Winner(winner.correctVotesNumber, winner.user, winnerzStudent)
+		winObj = Winner(winner.correctVotesNumber, winnerzStudent, winner.currentPlacement)
+		winObj.isActualStudent = winner.isStudent
+		winObj.displayName = winner.displayName
 		winnerzObjects.append(winObj)
 
 	return winnerzObjects
 
 
+def getUserPlacement(username):
+	user = UserModel.objects.get(username=username)
+	studentOfUser = Student.objects.get(user=user)
+	if studentOfUser.studentYear in range(5,9):
+		years = range(5,9)
+	elif studentOfUser.studentYear in range(9,13):
+		years = range(9,14)
+
+	correctUserVotes = CorrectUserVotes.objects.get(user=user)
+	if correctUserVotes.lastRefresh != datetime.date.today() or not correctUserVotes:
+		refreshWinnersUpToYesterday()
+
+	placement = correctUserVotes.currentPlacement
+
+	return placement
+
+
 class Winner():
-	def __init__(self, numOfRightVotes, user, student):
-		if user.first_name != '' and user.last_name != '': 
-			firstNamesSplit = user.first_name.split(' ')
-			self.displayName = firstNamesSplit[1] + " " + user.last_name[0] + ". "
-		else:
-			self.displayName = "User Number " + str(user.id)
+	def __init__(self, numOfRightVotes, student, placement):
+		self.place = placement
+		self.displayName = ''
+		self.isActualStudent = False
 
 		year = str(student.studentYear)
 		self.klasse = year + student.studentClass
