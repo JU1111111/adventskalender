@@ -12,29 +12,42 @@
 			<div class="card-body p-4">
 			  <div class="d-flex text-black">
 				<div class="flex-grow-1 ms-3">
+					<div class="row">
+						<div class="col-xs-12 mb-2">
+							<div class="rounded-6 p-2 bg-warning"  style="width: 90px;">
+								<div class="text-center" >
+									<i class="fas fa-trophy fa-2x"></i>
+									<span class="fw-bold">#13</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12">
 				  <h5 class="mb-1">{{user.username}}</h5>
 				  <p class="mb-1 pb-1" style="color: #2b2a2a">{{user.student.studentYear}}{{user.student.studentClass}}</p>
+				</div>
+				
+				</div>
 				  <!-- Create more info here -->
 				  <div class="row">
-					<div class="col-md-6">
-					  <p class="mb-1 pb-1" style="color: #2b2a2a">
+					<div class="col-xs-12 col-md-6">
+					  <p class="mb-1 pb-1 fw-bold h-75" style="color: #2b2a2a">
 						Email
 					  </p>
 					</div>
-					<div class="col-md-6">
-					  <p class="mb-1 pb-1 text-end" style="color: #2b2a2a">
+					<div class="col-xs-12 col-md-6">
+					  <p class="mb-1 pb-1 " style="color: #2b2a2a">
 						{{user.email}}
 					  </p>
 					</div>
 				  </div>
 				  <div class="row">
-					<div class="col-md-6">
-					  <p class="mb-1 pb-1" style="color: #2b2a2a">
+					<div class="col-xs-12 col-md-6">
+					  <p class="mb-1 pb-1 fw-bold h-75" style="color: #2b2a2a">
 						Registiert am
 					  </p>
 					</div>
-					<div class="col-md-6">
-					  <p class="mb-1 pb-1 text-end" style="color: #2b2a2a">
+					<div class="col-xs-12 col-md-6">
+					  <p class="mb-1 pb-1 " style="color: #2b2a2a">
 						{{user.date_joined.date}}
 					  </p>
 					</div>

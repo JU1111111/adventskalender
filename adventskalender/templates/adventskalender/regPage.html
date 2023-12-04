@@ -19,7 +19,8 @@
         <div class="col-12 col-md-8 col-lg-6 col-xl-5">
           <div class="card shadow-2-strong" style="border-radius: 1rem">
             <div class="card-body p-5 text-center">
-              <h3 class="mb-5">Konto erstellen</h3>
+              <h3 class="mb-4">Konto erstellen</h3>
+              <p class="text-warning">Achtung: Nur Emails mit "sghm.eu" werden angenommen</p>
               <form method="POST">
                 {% csrf_token %}
                 {{ register_form|crispy }}
