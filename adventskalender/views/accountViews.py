@@ -1,5 +1,6 @@
 from django.shortcuts import  render, redirect
 from adventskalender.forms import LoginForm
+from adminDash.funtions.dbMod import getNumberOfCorrectVotes, getNumberOfIncorrectVotes, getNumberOfTotalVotes
 from django.contrib.auth import login
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
@@ -56,7 +57,11 @@ def logout_request(request):
 
 @login_required
 def account(request):
-	return render(request,"adventskalender/accountPage.html")
+	return render(request,"adventskalender/accountPage.html",{
+		"total":str(getNumberOfTotalVotes(request.user)),
+		"right":str(getNumberOfCorrectVotes(request.user)),
+		"wrong":str(getNumberOfIncorrectVotes(request.user))
+		})
 
 
 @login_required

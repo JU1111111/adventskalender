@@ -128,10 +128,14 @@ class Winner():
 
 
 def getNumberOfTotalVotes(username):
-	numberOfTotalVotes = Vote.objects.filter(author__username=username, choice__question__end_date__lte=datetime.date.today()).count()
+	numberOfTotalVotes = Vote.objects.filter(author__username=username, choice__question__end_date__lte=datetime.date.today() + datetime.timedelta(days=1)).count()
 	return numberOfTotalVotes
 
 
 def getNumberOfCorrectVotes(username):
-	numberOfTotalVotes = Vote.objects.filter(author__username=username, choice__isCorrect=True, choice__question__end_date__lte=datetime.date.today()).count()
-	return numberOfTotalVotes
+	numberOfCorrectVotes = Vote.objects.filter(author__username=username, choice__isCorrect=True, choice__question__end_date__lte=datetime.date.today()).count()
+	return numberOfCorrectVotes
+
+def getNumberOfIncorrectVotes(username):
+	numberOfIncorrectVotes = Vote.objects.filter(author__username=username, choice__isCorrect=False, choice__question__end_date__lte=datetime.date.today()).count()
+	return numberOfIncorrectVotes
