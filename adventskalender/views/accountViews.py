@@ -30,8 +30,6 @@ def activate(request, uidb64, token):
 	
 
 def login_request(request):
-	if request.method == "GET" and request.COOKIES.get('seccookie') != "QWR2M250c2thbDNuZDNyIQ==":
-		return redirect('/secure')
 	if request.user.is_authenticated:
 		return redirect('/advent')
 	if request.method == "POST":

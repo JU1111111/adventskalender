@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-8=tp#+g^!f*58(7+*&c!ub*^kk2+faxg$#7v_n06+clmk_ajgd'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["13g-advent.de","www.13g-advent.de", '127.0.0.1' ]
 
@@ -49,7 +49,6 @@ INSTALLED_APPS = [
 	'adminDash.apps.AdmindashConfig',
 	"crispy_forms",
     "crispy_bootstrap5",
-    "secure",
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"

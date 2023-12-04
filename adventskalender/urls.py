@@ -25,7 +25,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 	path('dashboard/', include("adminDash.urls")),
     path('advent/', include("vidPlatform.urls"), name='home'),
-    path("secure/", include("secure.urls"), name="secure"),
 	path('register/', include("verifier.urls"), name="register_request"),
 	path('login/', accountViews.login_request, name="login"),
 	path('account/', accountViews.account, name="account"),
